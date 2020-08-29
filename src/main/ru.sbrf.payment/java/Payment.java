@@ -1,0 +1,14 @@
+
+import sun.security.x509.IPAddressName;
+
+
+
+public class Payment {
+    private String host; //имя хоста,вероятно стоит изменить тип переменной
+    private IPAddressName ip; //ip-адрес,возможно необходимо будет изменить тип переменной
+    private int port; //номер порта
+    private String protocol; //название протокола, возможно стоит изменить тип
+
+    //добавить геттеры и сеттеры?
+
+}
