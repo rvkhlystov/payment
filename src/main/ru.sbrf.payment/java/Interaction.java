@@ -1,40 +1,58 @@
-//уточнить почему scanner.close отправляет приложение в исключения
-//Добавить обработку ошибок при неверно введенных данных
+
 import java.util.Scanner;
 
-public interface Interaction {
+public class Interaction {
+
+    private String clientNumber;
+    private long accountNumber;
+    private long phoneNumber;
+    private String currency;
+    private float amount;
 
 
-    default long userInput(String descriptionOfInputData, long n) {
+
+    public void inputUserData() throws BusinessExceptions {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите " + descriptionOfInputData);
-        long scan = scanner.nextLong();
-        //scanner.close();
-        return scan;
+
+            System.out.println("Для осуществления перевода необходимо ввести данные");
+
+            System.out.print("номер клиента: ");
+            clientNumber = scanner.next();
+
+            System.out.print("номер счета: ");
+            accountNumber = scanner.nextLong();
+
+            System.out.print("номер телефона: +");
+            phoneNumber = scanner.nextLong();
+            PhoneNumber.checkPhoneNumber(phoneNumber);
+
+            System.out.print("валюта: ");
+            currency = scanner.next();
+
+            System.out.print("сумма: ");
+            amount = scanner.nextFloat();
+
+            scanner.close();
+
     }
 
-    default String userInput(String descriptionOfInputData, String n) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите " + descriptionOfInputData);
-        String scan = scanner.nextLine();
-        //scanner.close();
-        return scan;
+    public String getClientNumber() {
+        return clientNumber;
     }
 
-    default float userInput(String descriptionOfInputData, float n) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите " + descriptionOfInputData);
-        float scan = scanner.nextFloat();
-        //scanner.close();
-        return scan;
+    public long getAccountNumber() {
+        return accountNumber;
     }
 
-    default String paymentOutput(long descriptionOutputData) {
-        return ("Перевод на номер телефона " + descriptionOutputData + " завершен успешно");
+    public long getPhoneNumber() {
+        return phoneNumber;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
 
-
-
-
+    public float getAmount() {
+        return amount;
+    }
 }

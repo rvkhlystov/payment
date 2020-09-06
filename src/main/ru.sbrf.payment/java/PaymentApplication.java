@@ -9,16 +9,31 @@ public class PaymentApplication {
     private int port; //номер порта
     private String protocol; //название протокола, возможно стоит изменить тип
 
-    //добавить геттеры и сеттеры?
+    public boolean connectToServer(){
+        //реализовать логику подключения к серверу
+        return true;
+    }
 
-    public static void pay() {
-        User user = new User();
-        user.setClientNumber();
-        user.setAccountNumber();
-        user.setPhoneNumber();
-        user.setCurrency();
-        user.setAmount();
+    public static void pay(User user) {
 
-        System.out.println(user.paymentOutput(user.getPhoneNumber()));
+            if (Server.madePayment(user) == true) {
+                System.out.println("Переведено " + user.getAmount() + " " + user.getCurrency() + " со счета " + user.getAccountNumber() + " на номер телефона +" + user.getPhoneNumber());
+
+            }
+            else {
+                System.out.println("Платеж не прошел");
+            }
+
+            //проверка полученных данных
+            System.out.println("-------------------------------");
+            System.out.println(user.getClientNumberDescription() + ": " + user.getClientNumber());
+            System.out.println(user.getAccountNumberDescription() + ": " + user.getAccountNumber());
+            System.out.println(user.getPhoneNumberDescription() + ": +" + user.getPhoneNumber());
+            System.out.println(user.getCurrencyDescription() + ": " + user.getCurrency());
+            System.out.println(user.getAmountDescription() + ": " + user.getAmount());
+
+
+
+
     }
 }
