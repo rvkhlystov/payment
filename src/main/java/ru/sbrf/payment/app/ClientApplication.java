@@ -1,11 +1,15 @@
+package ru.sbrf.payment.app;
 
-import sun.security.x509.IPAddressName;
+import ru.sbrf.payment.common.*;
+import ru.sbrf.payment.common.exceptions.BusinessExceptions;
+import ru.sbrf.payment.server.ServerInterface;
+
+import java.util.Date;
 
 
-
-public class PaymentApplication {
+public class ClientApplication implements ApplicationInterface {
     private String host; //имя хоста,вероятно стоит изменить тип переменной
-    private IPAddressName ip; //ip-адрес,возможно необходимо будет изменить тип переменной
+    private String ip; //ip-адрес,возможно необходимо будет изменить тип переменной
     private int port; //номер порта
     private String protocol; //название протокола, возможно стоит изменить тип
 
@@ -14,23 +18,28 @@ public class PaymentApplication {
         return true;
     }
 
-    public static void pay(User user) {
 
-            if (Server.madePayment(user) == true) {
+
+    public Payment pay(Interaction userData) throws BusinessExceptions {
+        Date date = new Date();
+        Payment payment = new Payment(1, date, userData.getClientNumber(), userData.getPhoneNumber(), userData.getAccountNumber(), Currency.RUB, userData.getAmount());
+        return payment;
+
+            /*if (Server.makePayment(user) == true) {
                 System.out.println("Переведено " + user.getAmount() + " " + user.getCurrency() + " со счета " + user.getAccountNumber() + " на номер телефона +" + user.getPhoneNumber());
 
             }
             else {
                 System.out.println("Платеж не прошел");
-            }
+            }*/
 
             //проверка полученных данных
-            System.out.println("-------------------------------");
+            /*System.out.println("-------------------------------");
             System.out.println(user.getClientNumberDescription() + ": " + user.getClientNumber());
             System.out.println(user.getAccountNumberDescription() + ": " + user.getAccountNumber());
             System.out.println(user.getPhoneNumberDescription() + ": +" + user.getPhoneNumber());
             System.out.println(user.getCurrencyDescription() + ": " + user.getCurrency());
-            System.out.println(user.getAmountDescription() + ": " + user.getAmount());
+            System.out.println(user.getAmountDescription() + ": " + user.getAmount());*/
 
 
 
