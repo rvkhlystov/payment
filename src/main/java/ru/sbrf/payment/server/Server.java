@@ -26,20 +26,20 @@ public class Server implements ServerInterface {
         clients.put(clientNumber, client);
     }
 
-
-    public void makePayment(Payment payment) {
+    @Override
+    public Payment makePayment(Payment payment) {
         numberOperationServer += 1;
         //добавить проверку на наличие средств на счете
         //добавить проверку на корректность номера
         boolean statusOperation = true; //после добавления проверок исправить
         DescriptionStatusPayment descriptionStatusPayment = DescriptionStatusPayment.success; //после добавления проверок исправить
-
         payment.setNumberOperationServer(numberOperationServer);
         payment.setDateOperationServer(new Date());
         payment.setStatusOperation(statusOperation);
         payment.setDescriptionStatusPayment(descriptionStatusPayment);
 
         payments.put(numberOperationServer, payment);
+        return payment;
     }
 
 }

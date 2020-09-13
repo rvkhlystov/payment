@@ -17,13 +17,13 @@ public class User {
     private String clientNumber;
     private String clientNumberDescription = "номер клиента";
     private Account account;
-    private long phoneNumber;
-    private String phoneNumberDescription = "номер телефона";
+    //private long phoneNumber;
+    //private String phoneNumberDescription = "номер телефона";
 
-    public User(String clientNumber, Account account, long phoneNumber) throws BusinessExceptions {
+    public User(String clientNumber, Account account) throws BusinessExceptions {
         this.clientNumber = clientNumber;
         this.account = account;
-        CheckPhoneNumber.checkPhoneNumber(phoneNumber);
-        this.phoneNumber = phoneNumber;
+        //CheckPhoneNumber.checkPhoneNumber(phoneNumber);
+        //this.phoneNumber = phoneNumber;
     }
 }

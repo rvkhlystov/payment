@@ -35,13 +35,6 @@ public class Payment {
         this.amount = amount;
     }
 
-/*    public void payMobileServer(int numberOperationServer, Date dateOperationServer, boolean statusOperation, DescriptionStatusPayment descriptionStatusPayment) {
-        this.numberOperationServer = numberOperationServer;
-        this.dateOperationServer = dateOperationServer;
-        this.statusOperation = statusOperation;
-        this.descriptionStatusPayment = descriptionStatusPayment;
-    }*/
-
     public void setNumberOperationServer(int numberOperationServer) {
         this.numberOperationServer = numberOperationServer;
     }

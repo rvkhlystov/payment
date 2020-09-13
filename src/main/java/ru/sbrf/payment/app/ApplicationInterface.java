@@ -1,5 +1,8 @@
 package ru.sbrf.payment.app;
 
-public interface ApplicationInterface {
+import ru.sbrf.payment.common.Payment;
 
+public interface ApplicationInterface {
+    default void returnStatusPayment(Payment payment) {
+    }
 }

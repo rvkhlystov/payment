@@ -13,29 +13,25 @@ public class Main {
     public static void main(String[] args) throws BusinessExceptions {
         Server server = new Server();
         ClientApplication clientApplication = new ClientApplication();
+        Interaction userData = new Interaction();
 
         Account account1 = new Account(12345, Currency.RUB, 10000);
-        User user1 = new User("1", account1, 79670401988);
+        User user1 = new User("1", account1);
         Account account2 = new Account(12346, Currency.RUB, 100000);
-        User user2 = new User("2", account2, 79670001122);
+        User user2 = new User("2", account2);
 
         server.addClient(user1.getClientNumber(), user1);
         server.addClient(user2.getClientNumber(), user2);
 
-        Interaction userData = new Interaction();
-
-        Payment payment = clientApplication.pay(userData);
-        server.makePayment(payment);
-
-
-
         try {
             userData.inputUserData();
-            //user.saveUserData(userData.getClientNumber(), userData.getAccountNumber(), userData.getPhoneNumber(), userData.getCurrency(), userData.getAmount());
-            ClientApplication.pay(userData);
+            Payment payment = clientApplication.pay(userData);
+            payment = server.makePayment(payment);
+            clientApplication.returnStatusPayment(payment);
+
         }
         catch (InputMismatchException e) {
-            System.out.println("Ошибка. Номер счета, номер телефона и сумма могут содержать только цифры. Для осуществления перевода необходимо начать заново.");
+            System.out.println("Ошибка. Номер телефона и сумма могут содержать только цифры. Для осуществления перевода необходимо начать заново.");
 
         }
         catch (BusinessExceptions e) {

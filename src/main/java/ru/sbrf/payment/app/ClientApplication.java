@@ -2,7 +2,6 @@ package ru.sbrf.payment.app;
 
 import ru.sbrf.payment.common.*;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
-import ru.sbrf.payment.server.ServerInterface;
 
 import java.util.Date;
 
@@ -18,31 +17,19 @@ public class ClientApplication implements ApplicationInterface {
         return true;
     }
 
-
-
     public Payment pay(Interaction userData) throws BusinessExceptions {
-        Date date = new Date();
-        Payment payment = new Payment(1, date, userData.getClientNumber(), userData.getPhoneNumber(), userData.getAccountNumber(), Currency.RUB, userData.getAmount());
+        Payment payment = new Payment(1, new Date(), userData.getClientNumber(), userData.getPhoneNumber(), userData.getAccountNumber(), Currency.RUB, userData.getAmount());
         return payment;
-
-            /*if (Server.makePayment(user) == true) {
-                System.out.println("Переведено " + user.getAmount() + " " + user.getCurrency() + " со счета " + user.getAccountNumber() + " на номер телефона +" + user.getPhoneNumber());
-
-            }
-            else {
-                System.out.println("Платеж не прошел");
-            }*/
-
-            //проверка полученных данных
-            /*System.out.println("-------------------------------");
-            System.out.println(user.getClientNumberDescription() + ": " + user.getClientNumber());
-            System.out.println(user.getAccountNumberDescription() + ": " + user.getAccountNumber());
-            System.out.println(user.getPhoneNumberDescription() + ": +" + user.getPhoneNumber());
-            System.out.println(user.getCurrencyDescription() + ": " + user.getCurrency());
-            System.out.println(user.getAmountDescription() + ": " + user.getAmount());*/
-
-
-
-
     }
+
+    @Override
+    public void returnStatusPayment(Payment payment) {
+        //String qw = payment.getDescriptionStatusPayment().name();
+        System.out.println(payment.getDescriptionStatusPayment().name());
+        System.out.println("Дата платежа: " + payment.getDateOperationServer());
+        System.out.println("Счет отправителя: " + payment.getAccountNumber());
+        System.out.println("Номер телефона получателя:" + payment.getPhoneNumber());
+        System.out.println("Сумма платежа: " + payment.getAmount() + " " + payment.getCurrency());
+    }
+
 }
