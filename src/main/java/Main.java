@@ -15,10 +15,13 @@ public class Main {
         ClientApplication clientApplication = new ClientApplication();
         Interaction userData = new Interaction();
 
-        Account account1 = new Account(12345, Currency.RUB, 10000);
-        User user1 = new User("1", account1);
-        Account account2 = new Account(12346, Currency.RUB, 100000);
-        User user2 = new User("2", account2);
+        //Account account1 = new Account(12345, Currency.RUB, 10000);
+        //User user1 = new User("1", account1);
+        //Account account2 = new Account(12346, Currency.RUB, 100000);
+        //User user2 = new User("2", account2);
+
+        User user1 = new User("1", new Account(12345, Currency.RUB, 10000));
+        User user2 = new User("2", new Account(12346, Currency.RUB, 100000));
 
         server.addClient(user1.getClientNumber(), user1);
         server.addClient(user2.getClientNumber(), user2);
