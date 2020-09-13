@@ -6,9 +6,11 @@ import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
 import java.util.Date;
 
+//Реализовать тесты
+
 @Getter
 
-public class Payment {
+public class Payment extends Object {
 
     private int numberOperationApp;
     private Date dateOperationApp;
@@ -33,6 +35,22 @@ public class Payment {
         this.accountNumber = accountNumber;
         this.currency = currency;
         this.amount = amount;
+    }
+
+    public boolean equals(Payment payment) {
+        if (payment == null) {
+            return false;
+        }
+        else {
+            return ((payment.getClientNumber() == this.getClientNumber()
+                    && (payment.getAccountNumber() == this.getAccountNumber())
+                    && (payment.getPhoneNumber() == this.getPhoneNumber()))
+                    && (payment.getCurrency() == this.getCurrency())
+                    && (payment.getAmount() == this.getAmount()
+                    && ((this.getDateOperationApp().getTime() - payment.getDateOperationApp().getTime()) < 100000)
+            ));
+        }
+
     }
 
     public void setNumberOperationServer(int numberOperationServer) {

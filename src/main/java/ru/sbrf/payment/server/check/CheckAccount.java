@@ -3,6 +3,7 @@ package ru.sbrf.payment.server.check;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
 //добавить в методы фиксацию статуса платежа в базе, если проверка завалилась
+//добавить логирование
 
 public class CheckAccount {
     public static boolean checkBalanceForMakeOperation(float balance, float amount) throws BusinessExceptions {

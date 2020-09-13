@@ -24,8 +24,8 @@ public class Server implements ServerInterface {
     private HashMap<String, User> clients = new HashMap<>();
     private HashMap<Integer, Payment> payments = new HashMap<>();
 
-    int numberOperationServer = 0;
-    boolean statusOperation = true;
+    private int numberOperationServer = 0;
+    private boolean statusOperation = true;
 
     public void addClient (String clientNumber, User client) {
         clients.put(clientNumber, client);
@@ -47,7 +47,7 @@ public class Server implements ServerInterface {
         //проверяем корректность указанного пользователем счета
         statusOperation &= CheckAccount.checkAccountNumber(accountNumberUser,accountNumberPayment);
 
-        //получаем сумму оплаты из платежа
+        //получаем сумму оплаты из платежки
         float amount = payment.getAmount();
 
         //получаем баланс счета
@@ -56,7 +56,7 @@ public class Server implements ServerInterface {
         //проверяем достаточность средств на счете
         statusOperation &= CheckAccount.checkBalanceForMakeOperation(balance, amount);
 
-        //Меняем баланс
+        //меняем баланс
         clients.get(payment.getClientNumber()).getAccount().setBalance(balance - amount);
 
 
