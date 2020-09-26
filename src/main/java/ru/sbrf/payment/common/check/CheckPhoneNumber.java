@@ -7,8 +7,9 @@ public class CheckPhoneNumber {
     public static long checkPhoneNumber(long phoneNumber) throws BusinessExceptions {
         int num = 0;
         String msg;
-        while (phoneNumber != 0) {
-            phoneNumber /= 10;
+        long phoneNumberCheck = phoneNumber;
+        while (phoneNumberCheck != 0) {
+            phoneNumberCheck /= 10;
             num += 1;
         }
         if (num == 11) {

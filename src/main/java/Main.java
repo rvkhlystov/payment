@@ -11,13 +11,12 @@ import ru.sbrf.payment.server.Server;
 
 import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.function.Consumer;
 
 //Реализовать ко всем классам тесты
 
 public class Main {
     public static void main(String[] args) throws BusinessExceptions {
-
-        System.out.println(new Date());
 
         Server server = new Server();
         DataBaseClients dataBaseClients = new DataBaseClients();

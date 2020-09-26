@@ -11,7 +11,7 @@ import ru.sbrf.payment.common.check.CheckPhoneNumber;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
 @Getter
-@Setter
+//@Setter
 
 public class User {
     private String clientNumber;

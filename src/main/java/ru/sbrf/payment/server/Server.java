@@ -49,6 +49,7 @@ public class Server implements ServerInterface {
         statusOperation &= CheckAccount.checkBalanceForMakeOperation(balance, amount);
 
         //меняем баланс
+        //Изменить подход - баланс должен меняться через метод, получающий на вход сумму изменения
         dataBaseClients.getClients().get(payment.getClientNumber()).getAccount().setBalance(balance - amount);
 
 

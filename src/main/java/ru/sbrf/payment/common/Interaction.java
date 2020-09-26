@@ -14,6 +14,7 @@ public class Interaction {
     private long phoneNumber;
     private float amount;
 
+    //удалить метод ввода с консоли?
     public void inputUserData() throws BusinessExceptions {
         Scanner scanner = new Scanner(System.in);
 
@@ -25,7 +26,7 @@ public class Interaction {
             System.out.print("номер счета: ");
             accountNumber = scanner.nextLong();
 
-            System.out.print("номер телефона: +");
+            System.out.print("номер телефона: +7");
             phoneNumber = scanner.nextLong();
             CheckPhoneNumber.checkPhoneNumber(phoneNumber);
 
@@ -36,4 +37,13 @@ public class Interaction {
 
     }
 
+    public Interaction() {
+    }
+
+    public Interaction(String clientNumber, long accountNumber, long phoneNumber, float amount) {
+        this.clientNumber = clientNumber;
+        this.accountNumber = accountNumber;
+        this.phoneNumber = phoneNumber;
+        this.amount = amount;
+    }
 }
