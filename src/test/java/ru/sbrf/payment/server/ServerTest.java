@@ -9,6 +9,7 @@ import ru.sbrf.payment.client.User;
 import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.Interaction;
 import ru.sbrf.payment.common.Payment;
+import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
 import java.util.InputMismatchException;
@@ -35,7 +36,7 @@ class ServerTest {
         ClientApplication clientApplication = new ClientApplication();
 
         //Эмулируем получение данных от пользователя
-        Interaction userData = new Interaction("1", 12345, 79234567890L, 100);
+        Interaction userData = new Interaction("1", 12345, new PhoneNumberRussian("1234567890"), 100);
 
         //добавляем в базы данных двух клиентов
         dataBaseClients.addClient("1", new User("1", new Account(12345, Currency.RUB, 10000)));
@@ -77,7 +78,7 @@ class ServerTest {
         ClientApplication clientApplication = new ClientApplication();
 
         //Эмулируем получение данных от пользователя
-        Interaction userData = new Interaction("1", 12345, 79234567890L, 100);
+        Interaction userData = new Interaction("1", 12345, new PhoneNumberRussian("1234567890"), 100);
 
         //добавляем в базы данных двух клиентов
         dataBaseClients.addClient("1", new User("1", new Account(12345, Currency.RUB, 10000)));
@@ -115,7 +116,7 @@ class ServerTest {
         ClientApplication clientApplication = new ClientApplication();
 
         //Эмулируем получение данных от пользователя
-        Interaction userData = new Interaction("3", 12345, 79234567890L, 100);
+        Interaction userData = new Interaction("3", 12345, new PhoneNumberRussian("1234567890"), 100);
 
         //добавляем в базы данных двух клиентов
         dataBaseClients.addClient("1", new User("1", new Account(12345, Currency.RUB, 10000)));
@@ -147,7 +148,7 @@ class ServerTest {
         ClientApplication clientApplication = new ClientApplication();
 
         //Эмулируем получение данных от пользователя
-        Interaction userData = new Interaction("1", 123, 79234567890L, 100);
+        Interaction userData = new Interaction("1", 123, new PhoneNumberRussian("1234567890"), 100);
 
         //добавляем в базы данных двух клиентов
         dataBaseClients.addClient("1", new User("1", new Account(12345, Currency.RUB, 10000)));
@@ -178,7 +179,7 @@ class ServerTest {
         ClientApplication clientApplication = new ClientApplication();
 
         //Эмулируем получение данных от пользователя
-        Interaction userData = new Interaction("1", 12345, 79234567890L, 100000);
+        Interaction userData = new Interaction("1", 12345, new PhoneNumberRussian("1234567890"), 100000);
 
         //добавляем в базы данных двух клиентов
         dataBaseClients.addClient("1", new User("1", new Account(12345, Currency.RUB, 10000)));
@@ -210,7 +211,7 @@ class ServerTest {
         ClientApplication clientApplication = new ClientApplication();
 
         //Эмулируем получение данных от пользователя
-        Interaction userData = new Interaction("2", 12345, 79234567890L, 100);
+        Interaction userData = new Interaction("2", 12345, new PhoneNumberRussian("1234567890"), 100);
 
         //добавляем в базы данных двух клиентов
         dataBaseClients.addClient("1", new User("1", new Account(12345, Currency.RUB, 10000)));

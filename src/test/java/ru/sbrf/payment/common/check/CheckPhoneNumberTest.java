@@ -20,18 +20,27 @@ class CheckPhoneNumberTest {
 
     @Test
     void checkPhoneNumberTrue() throws BusinessExceptions {
-        assertTrue(CheckPhoneNumber.checkPhoneNumber(79234567890L) == 79234567890L);
+        assertTrue(CheckPhoneNumber.checkPhoneNumber("9234567890") == "9234567890");
     }
 
     @Test
-    void checkPhoneNumberError11Digits() throws BusinessExceptions {
+    void checkPhoneNumberError10Digits() throws BusinessExceptions {
         try {
-            CheckPhoneNumber.checkPhoneNumber(792345678901L);
+            CheckPhoneNumber.checkPhoneNumber("92345678901");
         }
         catch (BusinessExceptions e) {
             System.out.println(e.getMessage());
         }
     }
 
+    @Test
+    void checkPhoneNumberErrorCharacter() throws BusinessExceptions {
+        try {
+            CheckPhoneNumber.checkPhoneNumber("9A34567890");
+        }
+        catch (BusinessExceptions e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }

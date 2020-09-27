@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 public class Main {
     public static void main(String[] args) throws BusinessExceptions {
 
-        Server server = new Server();
+        /*Server server = new Server();
         DataBaseClients dataBaseClients = new DataBaseClients();
         DataBasePayments dataBasePayments = new DataBasePayments();
         ClientApplication clientApplication = new ClientApplication();
@@ -53,7 +53,7 @@ public class Main {
 
         //Реализовать тесты
         System.out.println("Баланс после проведения платежа: " + dataBaseClients.getClients().get(userData.getClientNumber()).getAccount().getBalance());
-
+*/
 
 
 

@@ -7,6 +7,7 @@ import ru.sbrf.payment.app.check.CheckDoublePayment;
 import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.Interaction;
 import ru.sbrf.payment.common.Payment;
+import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
 import java.util.Date;
@@ -32,14 +33,14 @@ class ClientApplicationTest {
         ClientApplication clientApplication = new ClientApplication();
         Interaction userData = new Interaction("1",
                 12345,
-                1234567890,
+                new PhoneNumberRussian("1234567890"),
                 100);
         Payment paymentExpected1 = clientApplication.pay(userData);
 
         Payment paymentActual1 = new Payment(1,
                 paymentExpected1.getDateOperationApp(),
                 "1",
-                1234567890,
+                new PhoneNumberRussian("1234567890"),
                 12345,
                 Currency.RUB,
                 100);
