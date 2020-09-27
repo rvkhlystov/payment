@@ -20,6 +20,8 @@ public class Account {
         this.currency = currency;
         this.balance = balance;
     }
+
+
     //Реализовать сеттер по изменению баланса через получение суммы увеличения/уменьшения баланса
     public void setBalance(float balance) {
         this.balance = balance;

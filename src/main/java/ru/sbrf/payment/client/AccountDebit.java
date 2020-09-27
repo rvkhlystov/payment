@@ -7,8 +7,6 @@ import ru.sbrf.payment.common.Currency;
 
 public class AccountDebit extends Account {
 
-    private AccountType accountType = AccountType.ACCOUNT_DEBIT;
-
     public AccountDebit(long accountNumber, Currency currency, float balance) {
         super(accountNumber, currency, balance);
     }

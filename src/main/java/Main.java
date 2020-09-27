@@ -1,3 +1,4 @@
+import ru.sbrf.payment.client.AccountCredit;
 import ru.sbrf.payment.common.Interaction;
 import ru.sbrf.payment.app.ClientApplication;
 import ru.sbrf.payment.client.Account;

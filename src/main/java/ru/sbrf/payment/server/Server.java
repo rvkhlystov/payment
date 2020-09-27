@@ -1,6 +1,7 @@
 package ru.sbrf.payment.server;
 
 import lombok.Getter;
+import ru.sbrf.payment.client.AccountDebit;
 import ru.sbrf.payment.common.DescriptionStatusPayment;
 import ru.sbrf.payment.common.Payment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;

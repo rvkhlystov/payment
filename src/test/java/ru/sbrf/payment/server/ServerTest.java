@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.sbrf.payment.app.ClientApplication;
 import ru.sbrf.payment.client.Account;
+import ru.sbrf.payment.client.AccountCredit;
+import ru.sbrf.payment.client.AccountDebit;
 import ru.sbrf.payment.client.User;
 import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.Interaction;
@@ -39,8 +41,8 @@ class ServerTest {
         Interaction userData = new Interaction("1", 12345, new PhoneNumberRussian("1234567890"), 100);
 
         //добавляем в базы данных двух клиентов
-        dataBaseClients.addClient("1", new User("1", new Account(12345, Currency.RUB, 10000)));
-        dataBaseClients.addClient("2", new User("2", new Account(12346, Currency.RUB, 100000)));
+        dataBaseClients.addClient("1", new User("1", new AccountDebit(12345, Currency.RUB, 10000)));
+        dataBaseClients.addClient("2", new User("2", new AccountCredit(12346, Currency.RUB, 100000)));
 
         try {
             //создаем платеж на стороне приложения
@@ -81,8 +83,8 @@ class ServerTest {
         Interaction userData = new Interaction("1", 12345, new PhoneNumberRussian("1234567890"), 100);
 
         //добавляем в базы данных двух клиентов
-        dataBaseClients.addClient("1", new User("1", new Account(12345, Currency.RUB, 10000)));
-        dataBaseClients.addClient("2", new User("2", new Account(12346, Currency.RUB, 100000)));
+        dataBaseClients.addClient("1", new User("1", new AccountDebit(12345, Currency.RUB, 10000)));
+        dataBaseClients.addClient("2", new User("2", new AccountCredit(12346, Currency.RUB, 100000)));
 
         try {
             Payment payment = clientApplication.pay(userData);
@@ -119,8 +121,8 @@ class ServerTest {
         Interaction userData = new Interaction("3", 12345, new PhoneNumberRussian("1234567890"), 100);
 
         //добавляем в базы данных двух клиентов
-        dataBaseClients.addClient("1", new User("1", new Account(12345, Currency.RUB, 10000)));
-        dataBaseClients.addClient("2", new User("2", new Account(12346, Currency.RUB, 100000)));
+        dataBaseClients.addClient("1", new User("1", new AccountDebit(12345, Currency.RUB, 10000)));
+        dataBaseClients.addClient("2", new User("2", new AccountCredit(12346, Currency.RUB, 100000)));
 
         try {
             //создаем платеж на стороне приложения
@@ -151,8 +153,8 @@ class ServerTest {
         Interaction userData = new Interaction("1", 123, new PhoneNumberRussian("1234567890"), 100);
 
         //добавляем в базы данных двух клиентов
-        dataBaseClients.addClient("1", new User("1", new Account(12345, Currency.RUB, 10000)));
-        dataBaseClients.addClient("2", new User("2", new Account(12346, Currency.RUB, 100000)));
+        dataBaseClients.addClient("1", new User("1", new AccountDebit(12345, Currency.RUB, 10000)));
+        dataBaseClients.addClient("2", new User("2", new AccountCredit(12346, Currency.RUB, 100000)));
 
         try {
             //создаем платеж на стороне приложения
@@ -182,8 +184,8 @@ class ServerTest {
         Interaction userData = new Interaction("1", 12345, new PhoneNumberRussian("1234567890"), 100000);
 
         //добавляем в базы данных двух клиентов
-        dataBaseClients.addClient("1", new User("1", new Account(12345, Currency.RUB, 10000)));
-        dataBaseClients.addClient("2", new User("2", new Account(12346, Currency.RUB, 100000)));
+        dataBaseClients.addClient("1", new User("1", new AccountDebit(12345, Currency.RUB, 10000)));
+        dataBaseClients.addClient("2", new User("2", new AccountCredit(12346, Currency.RUB, 100000)));
 
         try {
             //создаем платеж на стороне приложения
@@ -214,8 +216,8 @@ class ServerTest {
         Interaction userData = new Interaction("2", 12345, new PhoneNumberRussian("1234567890"), 100);
 
         //добавляем в базы данных двух клиентов
-        dataBaseClients.addClient("1", new User("1", new Account(12345, Currency.RUB, 10000)));
-        dataBaseClients.addClient("2", new User("2", new Account(12346, Currency.RUB, 100000)));
+        dataBaseClients.addClient("1", new User("1", new AccountDebit(12345, Currency.RUB, 10000)));
+        dataBaseClients.addClient("2", new User("2", new AccountCredit(12346, Currency.RUB, 100000)));
 
         try {
             //создаем платеж на стороне приложения

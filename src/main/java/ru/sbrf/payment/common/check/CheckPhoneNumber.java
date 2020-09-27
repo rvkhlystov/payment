@@ -2,10 +2,12 @@ package ru.sbrf.payment.common.check;
 
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
+//реализовать логику проверки в зависимости от кода страны
+
 public class CheckPhoneNumber {
 
     public static String checkPhoneNumber(String phoneNumber) throws BusinessExceptions {
-        int num = 0;
+        //int num = 0;
         //String msg;
         String numbers = "\\d+";
 

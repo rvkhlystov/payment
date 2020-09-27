@@ -1,11 +1,21 @@
 package ru.sbrf.payment.server.check;
 
+import lombok.Getter;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
 //добавить в методы фиксацию статуса платежа в базе, если проверка завалилась
 //добавить логирование
 
-public class CheckAccount {
+@Getter
+
+//притянул за уши дженерики
+public class CheckAccount<T> {
+    private T account;
+
+    public CheckAccount(T account) {
+        this.account = account;
+    }
+
     public static boolean checkBalanceForMakeOperation(float balance, float amount) throws BusinessExceptions {
         if (balance >= amount) {
             return true;
