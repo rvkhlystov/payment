@@ -7,7 +7,7 @@ import ru.sbrf.payment.common.Currency;
 
 public class Account {
 
-    private String accountDescription = "счет";
+    //private AccountDescription accountDescription = AccountDescription.ACCOUNT;
     private long accountNumber;
     private String accountNumberDescription = "номер счета";
     private Currency currency;
@@ -20,7 +20,7 @@ public class Account {
         this.currency = currency;
         this.balance = balance;
     }
-
+    //Реализовать сеттер по изменению баланса через получение суммы увеличения/уменьшения баланса
     public void setBalance(float balance) {
         this.balance = balance;
     }
