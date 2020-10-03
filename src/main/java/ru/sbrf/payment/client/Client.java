@@ -6,24 +6,46 @@ package ru.sbrf.payment.client;
 //реализовать проверку на корректность заполнения полей в конструкторе
 
 import lombok.Getter;
-import lombok.Setter;
-import ru.sbrf.payment.common.check.CheckPhoneNumber;
-import ru.sbrf.payment.common.exceptions.BusinessExceptions;
+
+import java.util.HashMap;
 
 @Getter
-//@Setter
 
-public class User {
+public class Client {
     private String clientNumber;
     private String clientNumberDescription = "номер клиента";
-    private Account account;
+    //private Account account;
+    private HashMap<String, Account> accountsList = new HashMap<>();
     //private long phoneNumber;
     //private String phoneNumberDescription = "номер телефона";
 
-    public User(String clientNumber, Account account) throws BusinessExceptions {
+    /*public Client(String clientNumber, Account account) throws BusinessExceptions {
         this.clientNumber = clientNumber;
         this.account = account;
         //CheckPhoneNumber.checkPhoneNumber(phoneNumber);
         //this.phoneNumber = phoneNumber;
+    }*/
+
+    public Client(String clientNumber, Account account) {
+        this.clientNumber = clientNumber;
+        accountsList.put(account.getAccountNumber(), account);
+    }
+
+    public void addAccount(Account account) {
+        accountsList.put(account.getAccountNumber(), account);
+    }
+
+    /*public void add1Account(Account account) {
+        new AddAccount
+    (account, accountsList);
+    }*/
+
+
+    public void delAccount(long accountNumber) {
+        accountsList.remove(accountNumber);
+    }
+
+    public Account getAccount(String numberAccount) {
+        return accountsList.get(numberAccount);
     }
 }

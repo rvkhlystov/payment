@@ -1,6 +1,6 @@
 package ru.sbrf.payment.app.check;
 
-import ru.sbrf.payment.common.Payment;
+import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
 //добавить в методы фиксацию статуса платежа в базе, если проверка завалилась

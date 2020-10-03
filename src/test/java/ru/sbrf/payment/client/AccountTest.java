@@ -24,7 +24,7 @@ class AccountTest {
 
     @Test
     void setBalance() {
-        Account account1 = new Account(12345, Currency.RUB, 10000);
+        Account account1 = new Account("12345", Currency.RUB, 10000);
         account1.setBalance(5000);
 
         assertEquals(account1.getBalance(), 5000);
