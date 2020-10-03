@@ -1,3 +1,4 @@
+import ru.sbrf.payment.client.AccountCredit;
 import ru.sbrf.payment.common.Interaction;
 import ru.sbrf.payment.app.ClientApplication;
 import ru.sbrf.payment.client.Account;
@@ -11,15 +12,14 @@ import ru.sbrf.payment.server.Server;
 
 import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.function.Consumer;
 
 //Реализовать ко всем классам тесты
 
 public class Main {
     public static void main(String[] args) throws BusinessExceptions {
 
-        System.out.println(new Date());
-
-        Server server = new Server();
+        /*Server server = new Server();
         DataBaseClients dataBaseClients = new DataBaseClients();
         DataBasePayments dataBasePayments = new DataBasePayments();
         ClientApplication clientApplication = new ClientApplication();
@@ -54,7 +54,7 @@ public class Main {
 
         //Реализовать тесты
         System.out.println("Баланс после проведения платежа: " + dataBaseClients.getClients().get(userData.getClientNumber()).getAccount().getBalance());
-
+*/
 
 
 

@@ -1,6 +1,7 @@
 package ru.sbrf.payment.server;
 
 import lombok.Getter;
+import ru.sbrf.payment.client.AccountDebit;
 import ru.sbrf.payment.common.DescriptionStatusPayment;
 import ru.sbrf.payment.common.Payment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
@@ -49,6 +50,7 @@ public class Server implements ServerInterface {
         statusOperation &= CheckAccount.checkBalanceForMakeOperation(balance, amount);
 
         //меняем баланс
+        //Изменить подход - баланс должен меняться через метод, получающий на вход сумму изменения
         dataBaseClients.getClients().get(payment.getClientNumber()).getAccount().setBalance(balance - amount);
 
 

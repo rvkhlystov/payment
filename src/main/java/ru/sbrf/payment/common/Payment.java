@@ -1,6 +1,7 @@
 package ru.sbrf.payment.common;
 
 import lombok.Getter;
+import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
 import ru.sbrf.payment.common.check.CheckPhoneNumber;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
@@ -15,7 +16,7 @@ public class Payment extends Object {
     private int numberOperationApp;
     private Date dateOperationApp;
     private String clientNumber;
-    private long phoneNumber;
+    private PhoneNumberRussian phoneNumber;
     private long accountNumber;
     private Currency currency;
     private float amount;
@@ -26,11 +27,11 @@ public class Payment extends Object {
     private boolean statusOperation;
     private DescriptionStatusPayment descriptionStatusPayment;
 
-    public Payment(int numberOperationApp, Date dateOperationApp, String clientNumber, long phoneNumber, long accountNumber, Currency currency, float amount) throws BusinessExceptions {
+    public Payment(int numberOperationApp, Date dateOperationApp, String clientNumber, PhoneNumberRussian phoneNumber, long accountNumber, Currency currency, float amount) throws BusinessExceptions {
         this.numberOperationApp = numberOperationApp;
         this.dateOperationApp = dateOperationApp;
         this.clientNumber = clientNumber;
-        CheckPhoneNumber.checkPhoneNumber(phoneNumber);
+        //CheckPhoneNumber.checkPhoneNumber(phoneNumber);
         this.phoneNumber = phoneNumber;
         this.accountNumber = accountNumber;
         this.currency = currency;

@@ -1,5 +1,6 @@
 package ru.sbrf.payment.app;
 
+import lombok.Getter;
 import ru.sbrf.payment.app.check.CheckDoublePayment;
 import ru.sbrf.payment.common.*;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
@@ -7,6 +8,8 @@ import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 import java.util.Date;
 
 //Реализовать тесты
+
+@Getter
 
 public class ClientApplication implements ApplicationInterface {
     private String host; //имя хоста,вероятно стоит изменить тип переменной
