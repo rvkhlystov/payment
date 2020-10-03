@@ -5,6 +5,8 @@ import ru.sbrf.payment.client.User;
 import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.Payment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
+import ru.sbrf.payment.server.DataBaseClients;
+import ru.sbrf.payment.server.DataBasePayments;
 import ru.sbrf.payment.server.Server;
 
 import java.util.Date;
@@ -18,26 +20,28 @@ public class Main {
         System.out.println(new Date());
 
         Server server = new Server();
+        DataBaseClients dataBaseClients = new DataBaseClients();
+        DataBasePayments dataBasePayments = new DataBasePayments();
         ClientApplication clientApplication = new ClientApplication();
         Interaction userData = new Interaction();
 
         User user1 = new User("1", new Account(12345, Currency.RUB, 10000));
         User user2 = new User("2", new Account(12346, Currency.RUB, 100000));
 
-        server.addClient(user1.getClientNumber(), user1);
-        server.addClient(user2.getClientNumber(), user2);
+        dataBaseClients.addClient(user1.getClientNumber(), user1);
+        dataBaseClients.addClient(user2.getClientNumber(), user2);
 
         try {
             userData.inputUserData();
             Payment payment = clientApplication.pay(userData);
-            payment = server.makePayment(payment);
+            payment = server.makePayment(payment, dataBaseClients, dataBasePayments);
             clientApplication.returnStatusPayment(payment);
 
             //Реализовать тесты
             System.out.println();
             System.out.println("Повторяем платеж");
             payment = clientApplication.pay(userData);
-            payment = server.makePayment(payment);
+            payment = server.makePayment(payment, dataBaseClients, dataBasePayments);
             clientApplication.returnStatusPayment(payment);
         }
         catch (InputMismatchException e) {
@@ -49,7 +53,7 @@ public class Main {
         }
 
         //Реализовать тесты
-        System.out.println("Баланс после проведения платежа: " + server.getClients().get(userData.getClientNumber()).getAccount().getBalance());
+        System.out.println("Баланс после проведения платежа: " + dataBaseClients.getClients().get(userData.getClientNumber()).getAccount().getBalance());
 
 
 
