@@ -14,15 +14,13 @@ public class Account {
     private float balance;
     private String balanceDescription = "сумма";
 
-    public Account (String accountNumber, Currency currency, float balance) {
+    protected Account(String accountNumber, Currency currency, float balance) {
         this.accountNumber = accountNumber;
         this.currency = currency;
         this.balance = balance;
     }
 
-
-    //Реализовать сеттер по изменению баланса через получение суммы увеличения/уменьшения баланса
-    public void setBalance(float amount) {
+    public void changeBalance(float amount) {
         this.balance -= amount;
     }
 

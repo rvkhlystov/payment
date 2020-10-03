@@ -1,6 +1,8 @@
 package ru.sbrf.payment.server;
 
 import lombok.Getter;
+import ru.sbrf.payment.client.Account;
+import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.Operations.StatusPayment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
@@ -32,7 +34,7 @@ public class Server implements ServerInterface {
 
         //меняем баланс
         if (statusPayment == StatusPayment.CHECKSUCCESSFULLY) {
-            dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber()).setBalance(payment.getAmount());
+            dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber()).changeBalance(payment.getAmount());
             statusPayment = StatusPayment.PAYMENTCOMPLETED;
         }
         PaymentProcessed paymentProcessed = new PaymentProcessed(payment, statusPayment, numberOperationServer, new Date());

@@ -16,6 +16,8 @@ public class Client {
     private String clientNumberDescription = "номер клиента";
     //private Account account;
     private HashMap<String, Account> accountsList = new HashMap<>();
+    private HashMap<String, AccountCredit> accountCreditList = new HashMap<>();
+    private HashMap<String, AccountDebit> accountDebitList = new HashMap<>();
     //private long phoneNumber;
     //private String phoneNumberDescription = "номер телефона";
 
@@ -27,6 +29,7 @@ public class Client {
     }*/
 
     public Client(String clientNumber, Account account) {
+
         this.clientNumber = clientNumber;
         accountsList.put(account.getAccountNumber(), account);
     }

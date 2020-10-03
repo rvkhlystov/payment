@@ -2,7 +2,10 @@ package ru.sbrf.payment.client.Check;
 
 import lombok.Getter;
 import ru.sbrf.payment.client.Account;
+import ru.sbrf.payment.client.AccountCredit;
+import ru.sbrf.payment.client.AccountDebit;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
+import ru.sbrf.payment.server.DataBaseClients;
 
 import java.util.HashMap;
 
@@ -12,11 +15,12 @@ import java.util.HashMap;
 
 //притянул за уши дженерики
 public class CheckAccount {
-    //private T account;
 
-    public static <T> T checkAccount(Account account) {
-
-        return (T) account;
+    public static <T extends Account> T checkAccount(T account) throws BusinessExceptions {
+        if ((!(account.getClass() == AccountDebit.class)) && (!(account.getClass() == AccountCredit.class))) {
+            throw new BusinessExceptions("Указан некорректный тип счета, должен быть кредитный или дебетовый");
+        }
+        return account;
     }
 
     public static void checkBalanceForMakeOperation(Account account, float amount) throws BusinessExceptions {

@@ -25,11 +25,15 @@ public class CheckPayment {
         //проверяем корректность указанного пользователем счета
         try {
             CheckAccount.checkAccountNumber(dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList(), payment.getAccountNumber());
+            CheckAccount.checkAccount(dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber()));
         }
         catch (BusinessExceptions e) {
             System.out.println(e.getMessage());
             return StatusPayment.DONTACCOUNT;
         }
+        //Проверяем является ли счет дебетовым или кредитным
+
+
 
         //проверяем достаточность средств на счете
         try {

@@ -36,4 +36,6 @@ class CheckAccountTest {
         //assertTrue(CheckAccount.checkAccount(account).getClass().getName() == account.getClass().getName());
 
     }
+
+
 }
