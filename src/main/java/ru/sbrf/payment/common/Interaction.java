@@ -1,15 +1,18 @@
+package ru.sbrf.payment.common;
 
+import lombok.Getter;
+import ru.sbrf.payment.common.check.CheckPhoneNumber;
+import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 import java.util.Scanner;
+
+@Getter
 
 public class Interaction {
 
     private String clientNumber;
     private long accountNumber;
     private long phoneNumber;
-    private String currency;
     private float amount;
-
-
 
     public void inputUserData() throws BusinessExceptions {
         Scanner scanner = new Scanner(System.in);
@@ -24,10 +27,7 @@ public class Interaction {
 
             System.out.print("номер телефона: +");
             phoneNumber = scanner.nextLong();
-            PhoneNumber.checkPhoneNumber(phoneNumber);
-
-            System.out.print("валюта: ");
-            currency = scanner.next();
+            CheckPhoneNumber.checkPhoneNumber(phoneNumber);
 
             System.out.print("сумма: ");
             amount = scanner.nextFloat();
@@ -36,23 +36,4 @@ public class Interaction {
 
     }
 
-    public String getClientNumber() {
-        return clientNumber;
-    }
-
-    public long getAccountNumber() {
-        return accountNumber;
-    }
-
-    public long getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public float getAmount() {
-        return amount;
-    }
 }

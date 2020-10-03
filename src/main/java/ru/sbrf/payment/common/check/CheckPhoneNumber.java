@@ -1,4 +1,8 @@
-public class PhoneNumber {
+package ru.sbrf.payment.common.check;
+
+import ru.sbrf.payment.common.exceptions.BusinessExceptions;
+
+public class CheckPhoneNumber {
 
     public static long checkPhoneNumber(long phoneNumber) throws BusinessExceptions {
         int num = 0;
