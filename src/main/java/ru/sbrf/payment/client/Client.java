@@ -18,15 +18,6 @@ public class Client {
     private HashMap<String, Account> accountsList = new HashMap<>();
     private HashMap<String, AccountCredit> accountCreditList = new HashMap<>();
     private HashMap<String, AccountDebit> accountDebitList = new HashMap<>();
-    //private long phoneNumber;
-    //private String phoneNumberDescription = "номер телефона";
-
-    /*public Client(String clientNumber, Account account) throws BusinessExceptions {
-        this.clientNumber = clientNumber;
-        this.account = account;
-        //CheckPhoneNumber.checkPhoneNumber(phoneNumber);
-        //this.phoneNumber = phoneNumber;
-    }*/
 
     public Client(String clientNumber, Account account) {
 
@@ -37,12 +28,6 @@ public class Client {
     public void addAccount(Account account) {
         accountsList.put(account.getAccountNumber(), account);
     }
-
-    /*public void add1Account(Account account) {
-        new AddAccount
-    (account, accountsList);
-    }*/
-
 
     public void delAccount(long accountNumber) {
         accountsList.remove(accountNumber);

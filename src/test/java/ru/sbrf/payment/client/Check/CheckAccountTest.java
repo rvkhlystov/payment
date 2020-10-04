@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import ru.sbrf.payment.client.*;
 import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
+import ru.sbrf.payment.server.DataBaseClients;
+import ru.sbrf.payment.server.Server;
 
 class CheckAccountTest {
 
@@ -89,6 +91,36 @@ class CheckAccountTest {
     }
 
     @Test
-    void checkAccountNumber() {
+    void checkCorrectAccountNumber() {
+        //Создаем базу данных клиентов
+        DataBaseClients dataBaseClients = new DataBaseClients();
+
+        //добавляем в базу данных двух клиентов
+        dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
+        dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
+
+        try {
+            CheckAccount.checkAccountNumber(dataBaseClients.getClients().get("1").getAccountsList(),"12345");
+        }
+        catch (BusinessExceptions e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    void checkIncorrectAccountNumber() {
+        //Создаем базу данных клиентов
+        DataBaseClients dataBaseClients = new DataBaseClients();
+
+        //добавляем в базу данных двух клиентов
+        dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
+        dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
+
+        try {
+            CheckAccount.checkAccountNumber(dataBaseClients.getClients().get("1").getAccountsList(),"123456");
+        }
+        catch (BusinessExceptions e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

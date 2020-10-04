@@ -7,6 +7,7 @@ import ru.sbrf.payment.client.AccountDebit;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.function.*;
 
 //добавить логирование исключений
@@ -38,8 +39,12 @@ public class CheckAccount {
         }
     }
 
+    //Нужно ли все значения проверять на null через Optional,
+    // ведь фактически могут вместо любого значения
+    // загрузить через методы ссылку на значение и приложение упадет
     public static void checkAccountNumber(HashMap<String, Account> accountsListOfClient, String accountNumberPayment) throws BusinessExceptions {
-        if (accountsListOfClient.get(accountNumberPayment) == null) {
+        Optional<? extends Object> accountOptional = Optional.ofNullable(accountsListOfClient.get(accountNumberPayment));
+        if (!accountOptional.isPresent()) {
             throw new BusinessExceptions("Ошибка. Указанный счет не найден. ");
         }
     }
