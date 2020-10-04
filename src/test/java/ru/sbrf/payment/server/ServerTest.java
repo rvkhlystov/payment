@@ -9,7 +9,7 @@ import ru.sbrf.payment.common.*;
 import ru.sbrf.payment.common.Operations.*;
 import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
-import ru.sbrf.payment.server.Operations.PaymentProcessed;
+import ru.sbrf.payment.common.Operations.PaymentProcessed;
 
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,9 +1,7 @@
-package ru.sbrf.payment.server.Operations;
+package ru.sbrf.payment.common.Operations;
 
 import lombok.Getter;
 import ru.sbrf.payment.common.Currency;
-import ru.sbrf.payment.common.Operations.Payment;
-import ru.sbrf.payment.common.Operations.StatusPayment;
 import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 

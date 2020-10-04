@@ -1,4 +1,4 @@
-package ru.sbrf.payment.server.check;
+package ru.sbrf.payment.common.check;
 
 import ru.sbrf.payment.client.Account;
 import ru.sbrf.payment.client.Check.CheckAccount;
@@ -24,16 +24,15 @@ public class CheckPayment {
 
         //проверяем корректность указанного пользователем счета
         try {
+            //Наличие счета
             CheckAccount.checkAccountNumber(dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList(), payment.getAccountNumber());
+            //Счет дебетовый или кредитный
             CheckAccount.checkAccount(dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber()));
         }
         catch (BusinessExceptions e) {
             System.out.println(e.getMessage());
             return StatusPayment.DONTACCOUNT;
         }
-        //Проверяем является ли счет дебетовым или кредитным
-
-
 
         //проверяем достаточность средств на счете
         try {

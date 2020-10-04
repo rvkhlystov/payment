@@ -3,14 +3,9 @@ package ru.sbrf.payment.client.Check;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.sbrf.payment.client.Account;
-import ru.sbrf.payment.client.AccountCredit;
-import ru.sbrf.payment.client.AccountDebit;
-import ru.sbrf.payment.client.Client;
+import ru.sbrf.payment.client.*;
 import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CheckAccountTest {
 
@@ -24,9 +19,8 @@ class CheckAccountTest {
     }
 
     @Test
-    void checkAccountCredit() throws BusinessExceptions {
+    void checkAccountCredit() {
         AccountCredit accountCredit = new AccountCredit("2", Currency.RUB, 20000);
-
         try {
             assert CheckAccount.checkAccount(accountCredit) == accountCredit;
         }
@@ -36,9 +30,8 @@ class CheckAccountTest {
     }
 
     @Test
-    void checkAccountDebit() throws BusinessExceptions {
+    void checkAccountDebit() {
         AccountDebit accountDebit = new AccountDebit("1", Currency.RUB, 1000);
-
         try {
             assert CheckAccount.checkAccount(accountDebit) == accountDebit;
         }
@@ -47,20 +40,49 @@ class CheckAccountTest {
         }
     }
 
-    /*@Test
-    void checkAccount() throws BusinessExceptions {
-        AccountDebit accountDebit = new AccountDebit("1", Currency.RUB, 1000);
-        AccountCredit accountCredit = new AccountCredit("2", Currency.RUB, 20000);
-        Account account = new Account("3", Currency.RUB, 30000);
-        Client client = new Client("1", accountCredit);
-
+    @Test
+    void checkAccountDeposit() {
+        AccountDeposit accountDeposit = new AccountDeposit("1", Currency.RUB, 1000);
         try {
-            assert CheckAccount.checkAccount(account) == account;
+            assert CheckAccount.checkAccount(accountDeposit) == accountDeposit;
         }
         catch (BusinessExceptions e) {
             System.out.println(e.getMessage());
         }
-    }*/
+    }
+
+    @Test
+    void checkAccountCreditOld() {
+        AccountCredit accountCredit = new AccountCredit("1", Currency.RUB, 1000);
+        try {
+            assert CheckAccount.checkAccountOld(accountCredit) == accountCredit;
+        }
+        catch (BusinessExceptions e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    void checkAccountDebitOld() {
+        AccountDebit accountDebit = new AccountDebit("1", Currency.RUB, 1000);
+        try {
+            assert CheckAccount.checkAccountOld(accountDebit) == accountDebit;
+        }
+        catch (BusinessExceptions e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    void checkAccountDepositOld() {
+        AccountDeposit accountDeposit = new AccountDeposit("1", Currency.RUB, 1000);
+        try {
+            assert CheckAccount.checkAccountOld(accountDeposit) == accountDeposit;
+        }
+        catch (BusinessExceptions e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     @Test
     void checkBalanceForMakeOperation() {

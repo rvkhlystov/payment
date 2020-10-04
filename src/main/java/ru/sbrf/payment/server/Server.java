@@ -1,13 +1,11 @@
 package ru.sbrf.payment.server;
 
 import lombok.Getter;
-import ru.sbrf.payment.client.Account;
-import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.Operations.StatusPayment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
-import ru.sbrf.payment.server.Operations.PaymentProcessed;
-import ru.sbrf.payment.server.check.CheckPayment;
+import ru.sbrf.payment.common.Operations.PaymentProcessed;
+import ru.sbrf.payment.common.check.CheckPayment;
 
 import java.util.Date;
 
