@@ -3,8 +3,8 @@ package ru.sbrf.payment.common.Operations;
 import lombok.Getter;
 import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
-import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 //Реализовать тесты
@@ -19,10 +19,11 @@ public class Payment {
     private PhoneNumberRussian phoneNumber;
     private String accountNumber;
     private Currency currency;
-    private float amount;
+    @Min(0)
+    private long amount;
     private String amountDescription = "сумма";
 
-    public Payment(int numberOperationApp, Date dateOperationApp, String clientNumber, PhoneNumberRussian phoneNumber, String accountNumber, Currency currency, float amount) throws BusinessExceptions {
+    public Payment(int numberOperationApp, Date dateOperationApp, String clientNumber, PhoneNumberRussian phoneNumber, String accountNumber, Currency currency, long amount) {
         this.numberOperationApp = numberOperationApp;
         this.dateOperationApp = dateOperationApp;
         this.clientNumber = clientNumber;
@@ -33,12 +34,12 @@ public class Payment {
         this.amount = amount;
     }
 
-    @Override
+        @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Payment)) return false;
         Payment payment = (Payment) o;
-        return Float.compare(payment.getAmount(), getAmount()) == 0 &&
+        return getAmount() == payment.getAmount() &&
                 //getDateOperationApp().equals(payment.getDateOperationApp()) &&
                 (getDateOperationApp().getTime() - payment.getDateOperationApp().getTime()) < 100000 &&
                 getClientNumber().equals(payment.getClientNumber()) &&

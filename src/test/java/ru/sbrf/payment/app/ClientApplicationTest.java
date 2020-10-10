@@ -1,18 +1,21 @@
 package ru.sbrf.payment.app;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.*;
 import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.Interaction;
 import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
-import java.util.InputMismatchException;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@Slf4j
 
 class ClientApplicationTest {
 

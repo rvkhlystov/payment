@@ -6,10 +6,20 @@ import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 import ru.sbrf.payment.server.DataBaseClients;
 
+import javax.validation.*;
+
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CheckAccountTest {
 
+    private static Validator validator;
+    @BeforeAll
+    public static void setUpValidator() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
 
     @BeforeEach
     void setUp() {
@@ -19,23 +29,30 @@ class CheckAccountTest {
     void tearDown() {
     }
 
+    @Test
+    void checkAccountIncorrect() throws BusinessExceptions {
+        AccountCredit accountCredit = new AccountCredit("2", Currency.RUB, -1);
+        Set<ConstraintViolation<AccountCredit>> constraintViolations = validator.validate(accountCredit);
+        assertEquals(1, constraintViolations.size());
+        assertEquals("must be greater than or equal to 0", constraintViolations.iterator().next().getMessage());
+    }
 
     @Test
-    void checkAccountDepositNew() {
-        AccountDeposit accountDeposit = new AccountDeposit("2", Currency.RUB, 20000);
+    void checkAccountDeposit() {
+        AccountDeposit accountDeposit = new AccountDeposit("2", Currency.RUB, 20000L);
         Throwable exception = assertThrows(BusinessExceptions.class, () -> CheckAccount.checkAccount(CheckCorrectAccount.test(), accountDeposit));
         assertNotNull(exception.getMessage());
     }
 
     @Test
-    void checkAccountCreditNew() throws BusinessExceptions {
-        AccountCredit accountCredit = new AccountCredit("2", Currency.RUB, 20000);
+    void checkAccountCredit() throws BusinessExceptions {
+        AccountCredit accountCredit = new AccountCredit("2", Currency.RUB, 20000L);
         assert CheckAccount.checkAccount(CheckCorrectAccount.test(), accountCredit) == accountCredit;
     }
 
     @Test
-    void checkAccountDebitNew() throws BusinessExceptions {
-        AccountDebit accountDebit = new AccountDebit("1", Currency.RUB, 1000);
+    void checkAccountDebit() throws BusinessExceptions {
+        AccountDebit accountDebit = new AccountDebit("1", Currency.RUB, 1000L);
         assert CheckAccount.checkAccount(CheckCorrectAccount.test(), accountDebit) == accountDebit;
     }
 
@@ -46,8 +63,8 @@ class CheckAccountTest {
         DataBaseClients dataBaseClients = new DataBaseClients();
 
         //добавляем в базу данных двух клиентов
-        dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
-        dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
+        dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000L)));
+        dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000L)));
 
         //Проверка
         assertDoesNotThrow(() -> CheckAccount.checkAccountNumber(dataBaseClients.getClients().get("1").getAccountsList(),"12345"));
@@ -59,8 +76,8 @@ class CheckAccountTest {
         DataBaseClients dataBaseClients = new DataBaseClients();
 
         //добавляем в базу данных двух клиентов
-        dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
-        dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
+        dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000L)));
+        dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000L)));
 
         //проверка
         Throwable exception = assertThrows(BusinessExceptions.class, () -> CheckAccount.checkAccountNumber(dataBaseClients.getClients().get("1").getAccountsList(),"123456"));

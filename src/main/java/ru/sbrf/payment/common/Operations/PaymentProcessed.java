@@ -3,8 +3,10 @@ package ru.sbrf.payment.common.Operations;
 import lombok.Getter;
 import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
+import ru.sbrf.payment.common.check.CheckFieldsInClass;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 @Getter
@@ -16,14 +18,15 @@ public class PaymentProcessed {
     private PhoneNumberRussian phoneNumber;
     private String accountNumber;
     private Currency currency;
-    private float amount;
-
+    @Min(0)
+    private long amount;
     private StatusPayment statusPayment;
     private int numberOperationServer;
     private Date dateOperationServer;
 
 
     public PaymentProcessed(Payment payment, StatusPayment statusPayment, int numberOperationServer, Date dateOperationServer) throws BusinessExceptions {
+        CheckFieldsInClass.validate(payment);
         this.numberOperationApp = payment.getNumberOperationApp();
         this.dateOperationApp = payment.getDateOperationApp();
         this.clientNumber = payment.getClientNumber();
@@ -43,7 +46,7 @@ public class PaymentProcessed {
         if (!(o instanceof PaymentProcessed)) return false;
         PaymentProcessed that = (PaymentProcessed) o;
         return numberOperationApp == that.numberOperationApp &&
-                Float.compare(that.amount, amount) == 0 &&
+                amount == that.amount &&
                 numberOperationServer == that.numberOperationServer &&
                 dateOperationApp.equals(that.dateOperationApp) &&
                 clientNumber.equals(that.clientNumber) &&

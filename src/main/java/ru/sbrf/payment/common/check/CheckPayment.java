@@ -39,7 +39,7 @@ public class CheckPayment {
 
         //проверяем достаточность средств на счете
         //получаем сумму оплаты из платежки
-        float amount = payment.getAmount();
+        long amount = payment.getAmount();
         //получаем счет для дальнейшей работы с ним
         Account account = dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber());
         try {
