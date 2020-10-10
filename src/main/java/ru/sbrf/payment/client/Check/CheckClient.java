@@ -12,13 +12,5 @@ public class CheckClient {
         if (!clientNumberOptional.isPresent()) {
             throw new BusinessExceptions("Ошибка. Клиент не найден.");
         }
-
-        //старая реализация
-        /*if (clients.get(clientNumber) == null) {
-            throw new BusinessExceptions("Ошибка. Клиент не найден.");
-        }*/
     }
-
-
-
 }
