@@ -39,9 +39,6 @@ class CheckAccountTest {
         assert CheckAccount.checkAccount(CheckCorrectAccount.test(), accountDebit) == accountDebit;
     }
 
-    @Test
-    void checkBalanceForMakeOperation() {
-    }
 
     @Test
     void checkCorrectAccountNumber() {

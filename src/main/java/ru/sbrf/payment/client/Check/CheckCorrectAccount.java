@@ -1,6 +1,5 @@
 package ru.sbrf.payment.client.Check;
 
-import com.sun.corba.se.spi.orb.Operation;
 import ru.sbrf.payment.client.AccountCredit;
 import ru.sbrf.payment.client.AccountDebit;
 
@@ -13,7 +12,7 @@ public class CheckCorrectAccount<T extends Object> {
     }*/
 
     public static Predicate test() {
-        return ((object) -> (!(object.getClass() == AccountDebit.class)) && (!(object.getClass() == AccountCredit.class)));
+        return ((account) -> (!(account.getClass() == AccountDebit.class)) && (!(account.getClass() == AccountCredit.class)));
     }
 
 }
