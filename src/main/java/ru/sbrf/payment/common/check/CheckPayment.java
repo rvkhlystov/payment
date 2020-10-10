@@ -31,7 +31,6 @@ public class CheckPayment {
             //CheckAccount.checkAccount(dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber()));
             //Изменена строка в связи с изменением логики взаимодействия классов, проверяющих счета
             CheckAccount.checkAccount(CheckCorrectAccount.test(), dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber()));
-
         }
         catch (BusinessExceptions e) {
             //System.out.println(e.getMessage());
@@ -39,12 +38,11 @@ public class CheckPayment {
         }
 
         //проверяем достаточность средств на счете
+        //получаем сумму оплаты из платежки
+        float amount = payment.getAmount();
+        //получаем счет для дальнейшей работы с ним
+        Account account = dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber());
         try {
-            //получаем сумму оплаты из платежки
-            float amount = payment.getAmount();
-            //получаем счет для дальнейшей работы с ним
-            Account account = dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber());
-            //проверяем достаточность средств на счете
             CheckAccount.checkBalanceForMakeOperation(account, amount);
         }
         catch (BusinessExceptions e) {

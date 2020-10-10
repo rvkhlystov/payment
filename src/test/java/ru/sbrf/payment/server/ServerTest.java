@@ -52,7 +52,7 @@ class ServerTest {
                 && dataBaseClients.getClients().get("1").getAccountsList().get("12345").getBalance() == 9900);
     }
 
-    //Проверяем,что дублирующие платежи не проходят
+    //Проверяем,что дублирующие платежи не проходят и баланс меняется корректно
     @Test
     void makePaymentDouble() throws BusinessExceptions {
         //Создаем сервер,базы данных и приложение
@@ -68,16 +68,15 @@ class ServerTest {
         dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
         dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
 
+        //Создаем платеж
+        Payment payment = clientApplication.pay(userData);
+
+        //обрабатываем платеж на стороне сервера
+        PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
         try {
-            Payment payment = clientApplication.pay(userData);
-
-            //обрабатываем платеж на стороне сервера
-            PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
-
             //Повторяем платеж
             payment = clientApplication.pay(userData);
             paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
-
         }
         catch (BusinessExceptions e) {
             //Проверяем, что баланс изменился корректно
