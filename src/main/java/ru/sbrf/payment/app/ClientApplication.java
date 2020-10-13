@@ -4,8 +4,8 @@ import lombok.Getter;
 import ru.sbrf.payment.app.check.CheckDoublePayment;
 import ru.sbrf.payment.common.*;
 import ru.sbrf.payment.common.Operations.Payment;
+import ru.sbrf.payment.common.check.CheckFieldsInClass;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
-
 import java.util.Date;
 
 @Getter
@@ -26,6 +26,7 @@ public class ClientApplication implements ApplicationInterface {
 
     public Payment pay(Interaction userData) throws BusinessExceptions {
         Payment payment = new Payment(numberOperationApp, new Date(), userData.getClientNumber(), userData.getPhoneNumber(), userData.getAccountNumber(), Currency.RUB, userData.getAmount());
+        CheckFieldsInClass.validate(payment);
         CheckDoublePayment.checkDoublePayment(payment, paymentLast);
         numberOperationApp += 1;
         paymentLast = payment;

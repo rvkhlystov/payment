@@ -5,7 +5,7 @@ import ru.sbrf.payment.client.AccountDebit;
 
 import java.util.function.*;
 
-public class CheckCorrectAccount<T extends Object> {
+public class CheckCorrectAccount {
 
 /*    public boolean checkAccount(Predicate<T> predicate, T account) {
         return predicate.test(account);

@@ -7,7 +7,7 @@ import ru.sbrf.payment.common.Currency;
 
 public class AccountCredit extends Account {
 
-    public AccountCredit(String accountNumber, Currency currency, float balance) {
+    public AccountCredit(String accountNumber, Currency currency, long balance) {
         super(accountNumber, currency, balance);
     }
 

@@ -1,32 +1,29 @@
 package ru.sbrf.payment.client;
-//необходимо отказаться от передачи в сеттерах
-// переменных clientNumber, accountNumber, phoneNumber, currency, amount
-//Возможно через создание одноименных интерфейсов с атрибутами номер счета,описание счета и т.п.?
-
-//реализовать проверку на корректность заполнения полей в конструкторе
 
 import lombok.Getter;
+import ru.sbrf.payment.common.check.CheckFieldsInClass;
+import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashMap;
 
 @Getter
 
 public class Client {
+    @NotNull
+    @Size(max = 10, min = 1)
     private String clientNumber;
     private String clientNumberDescription = "номер клиента";
-    //private Account account;
     private HashMap<String, Account> accountsList = new HashMap<>();
-    private HashMap<String, AccountCredit> accountCreditList = new HashMap<>();
-    private HashMap<String, AccountDebit> accountDebitList = new HashMap<>();
 
     public Client(String clientNumber, Account account) {
-
         this.clientNumber = clientNumber;
         accountsList.put(account.getAccountNumber(), account);
     }
 
-    public void addAccount(Account account) {
-        accountsList.put(account.getAccountNumber(), account);
+    public void addAccount(Account account) throws BusinessExceptions {
+        accountsList.put(account.getAccountNumber(), CheckFieldsInClass.validate(account));
     }
 
     public void delAccount(long accountNumber) {

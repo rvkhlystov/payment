@@ -9,6 +9,7 @@ public class CheckPhoneNumber {
     public static String checkPhoneNumber(String phoneNumber) throws BusinessExceptions {
         String numbers = "\\d+";
 
+        //return phoneNumber;
         if (phoneNumber.matches(numbers) && phoneNumber.length() == 10) {
             return phoneNumber;
         }

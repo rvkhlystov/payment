@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.sbrf.payment.common.Currency;
+import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,7 +19,7 @@ class ClientTest {
     }
 
     @Test
-    void addAccount() {
+    void addAccount() throws BusinessExceptions {
         AccountCredit account = new AccountCredit("0", Currency.RUB, 999);
         Client client = new Client("123", account);
         client.addAccount(new AccountDebit("1", Currency.RUB, 100));
@@ -33,7 +34,7 @@ class ClientTest {
     void delAccount() {
     }
 
-    void getBalance() {
+    void getBalance() throws BusinessExceptions {
         Client client = new Client("123", new AccountCredit("11", Currency.RUB, 999));
         client.addAccount(new AccountDebit("1", Currency.RUB, 100));
         client.addAccount(new AccountCredit("2", Currency.RUB, 1000));

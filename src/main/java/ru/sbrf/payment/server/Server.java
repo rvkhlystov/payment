@@ -3,6 +3,7 @@ package ru.sbrf.payment.server;
 import lombok.Getter;
 import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.Operations.StatusPayment;
+import ru.sbrf.payment.common.check.CheckFieldsInClass;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 import ru.sbrf.payment.common.Operations.PaymentProcessed;
 import ru.sbrf.payment.common.check.CheckPayment;
@@ -24,6 +25,8 @@ public class Server implements ServerInterface {
 
     @Override
     public PaymentProcessed makePayment(Payment payment, DataBaseClients dataBaseClients, DataBasePayments dataBasePayments) throws BusinessExceptions {
+        CheckFieldsInClass.validate(payment);
+
         numberOperationServer += 1;
         statusPayment = StatusPayment.PAYMENTINITIATED;
 

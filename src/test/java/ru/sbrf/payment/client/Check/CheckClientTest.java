@@ -1,6 +1,7 @@
 package ru.sbrf.payment.client.Check;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.sbrf.payment.client.AccountCredit;
@@ -11,9 +12,24 @@ import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 import ru.sbrf.payment.server.DataBaseClients;
 import ru.sbrf.payment.server.Server;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CheckClientTest {
+
+
+    private static Validator validator;
+    @BeforeAll
+    public static void setUpValidator() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
 
     @BeforeEach
     void setUp() {
@@ -49,4 +65,31 @@ class CheckClientTest {
         //assertNotNull(exception.getMessage());
         assertTrue(exception.getMessage() == "Ошибка. Клиент не найден.");
     }
+
+    @Test
+    void checkClientNumberEqualNull() {
+        //Создаем сервер,базы данных и приложение
+        DataBaseClients dataBaseClients = new DataBaseClients();
+
+        //добавляем в базу данных клиента с пустым номером клиента
+        Client client = new Client(null, new AccountDebit("12345", Currency.RUB, 10000));
+
+        Set<ConstraintViolation<Client>> constraintViolations = validator.validate(client);
+        assertEquals(1, constraintViolations.size());
+        assertEquals("must not be null", constraintViolations.iterator().next().getMessage());
+    }
+
+    @Test
+    void checkIncorrectClientNumber() {
+        //Создаем сервер,базы данных и приложение
+        DataBaseClients dataBaseClients = new DataBaseClients();
+
+        //добавляем в базу данных клиента с пустым номером клиента
+        Client client = new Client("12345678901", new AccountDebit("12345", Currency.RUB, 10000));
+
+        Set<ConstraintViolation<Client>> constraintViolations = validator.validate(client);
+        assertEquals(1, constraintViolations.size());
+        assertEquals("size must be between 1 and 10", constraintViolations.iterator().next().getMessage());
+    }
+
 }
