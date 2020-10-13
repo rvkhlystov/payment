@@ -9,7 +9,7 @@ import ru.sbrf.payment.common.*;
 import ru.sbrf.payment.common.Operations.*;
 import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
-import ru.sbrf.payment.server.Operations.PaymentProcessed;
+import ru.sbrf.payment.common.Operations.PaymentProcessed;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,24 +41,18 @@ class ServerTest {
         dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
         dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
 
-        try {
-            //создаем платеж на стороне приложения
-            Payment payment = clientApplication.pay(userData);
+        //создаем платеж на стороне приложения
+        Payment payment = clientApplication.pay(userData);
 
-            //обрабатываем платеж на стороне сервера
-            PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
+        //обрабатываем платеж на стороне сервера
+        PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
 
-            //Проверяем,что в базу записался верный платеж и баланс изменился корректно
-            assertTrue(paymentProcessed.equals(dataBasePayments.getPayments().get(1))
-                    && dataBaseClients.getClients().get("1").getAccountsList().get("12345").getBalance() == 9900);
-        }
-
-        catch (BusinessExceptions e) {
-            System.out.println(e.getMessage());
-        }
+        //Проверяем,что в базу записался верный платеж и баланс изменился корректно
+        assertTrue(paymentProcessed.equals(dataBasePayments.getPayments().get(1))
+                && dataBaseClients.getClients().get("1").getAccountsList().get("12345").getBalance() == 9900);
     }
 
-    //Проверяем,что дублирующие платежи не проходят
+    //Проверяем,что дублирующие платежи не проходят и баланс меняется корректно
     @Test
     void makePaymentDouble() throws BusinessExceptions {
         //Создаем сервер,базы данных и приложение
@@ -74,21 +68,19 @@ class ServerTest {
         dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
         dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
 
+        //Создаем платеж
+        Payment payment = clientApplication.pay(userData);
+
+        //обрабатываем платеж на стороне сервера
+        PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
         try {
-            Payment payment = clientApplication.pay(userData);
-
-            //обрабатываем платеж на стороне сервера
-            PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
-
             //Повторяем платеж
             payment = clientApplication.pay(userData);
             paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
-
         }
         catch (BusinessExceptions e) {
             //Проверяем, что баланс изменился корректно
             assertTrue(dataBaseClients.getClients().get("1").getAccountsList().get("12345").getBalance() == 9900);
-            System.out.println(e.getMessage());
         }
 
     }
@@ -109,19 +101,15 @@ class ServerTest {
         dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
         dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
 
-        try {
-            //создаем платеж на стороне приложения
-            Payment payment = clientApplication.pay(userData);
+        //создаем платеж на стороне приложения
+        Payment payment = clientApplication.pay(userData);
 
-            //обрабатываем платеж на стороне сервера
-            PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
+        //обрабатываем платеж на стороне сервера
+        PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
 
-            assertTrue(paymentProcessed.getStatusPayment() == StatusPayment.DONTCLIENT);
+        //Убеждаемся, что в базу записался верный статус платежа
+        assertTrue(dataBasePayments.getPayments().get(paymentProcessed.getNumberOperationServer()).getStatusPayment() == StatusPayment.DONTCLIENT);
 
-        }
-        catch (BusinessExceptions e) {
-            //System.out.println(e.getMessage());
-        }
     }
 
     //Проверяем как отрабатывает алгоритм в случае некорректного ввода номера счета
@@ -140,18 +128,15 @@ class ServerTest {
         dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
         dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
 
-        try {
-            //создаем платеж на стороне приложения
-            Payment payment = clientApplication.pay(userData);
+        //создаем платеж на стороне приложения
+        Payment payment = clientApplication.pay(userData);
 
-            //обрабатываем платеж на стороне сервера
-            PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
+        //обрабатываем платеж на стороне сервера
+        PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
 
-            assertTrue(paymentProcessed.getStatusPayment() == StatusPayment.DONTACCOUNT);
-        }
-        catch (BusinessExceptions e) {
-            System.out.println(e.getMessage());
-        }
+        //Убеждаемся, что в базу записался верный статус платежа
+        assertTrue(dataBasePayments.getPayments().get(paymentProcessed.getNumberOperationServer()).getStatusPayment() == StatusPayment.DONTACCOUNT);
+
     }
 
     //Проверяем как отрабатывает алгоритм в случае указания суммы перевода больше баланса счета
@@ -170,18 +155,15 @@ class ServerTest {
         dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
         dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
 
-        try {
-            //создаем платеж на стороне приложения
-            Payment payment = clientApplication.pay(userData);
+        //создаем платеж на стороне приложения
+        Payment payment = clientApplication.pay(userData);
 
-            //обрабатываем платеж на стороне сервера
-            PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
+        //обрабатываем платеж на стороне сервера
+        PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
 
-            assertTrue(paymentProcessed.getStatusPayment() == StatusPayment.DONTENOUGHAMOUNT);
-        }
-        catch (BusinessExceptions e) {
-            System.out.println(e.getMessage());
-        }
+        //Убеждаемся, что в базу записался верный статус платежа
+        assertTrue(dataBasePayments.getPayments().get(paymentProcessed.getNumberOperationServer()).getStatusPayment() == StatusPayment.DONTENOUGHAMOUNT);
+
     }
 
     //Проверка алгоритма в случае указания номера счета другого клиента
@@ -200,17 +182,13 @@ class ServerTest {
         dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
         dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
 
-        try {
-            //создаем платеж на стороне приложения
-            Payment payment = clientApplication.pay(userData);
+        //создаем платеж на стороне приложения
+        Payment payment = clientApplication.pay(userData);
 
-            //обрабатываем платеж на стороне сервера
-            PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
-            assertTrue(paymentProcessed.getStatusPayment() == StatusPayment.DONTACCOUNT);
-        }
+        //обрабатываем платеж на стороне сервера
+        PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
 
-        catch (BusinessExceptions e) {
-            System.out.println(e.getMessage());
-        }
+        //Убеждаемся, что в базу записался верный статус платежа
+        assertTrue(dataBasePayments.getPayments().get(paymentProcessed.getNumberOperationServer()).getStatusPayment() == StatusPayment.DONTACCOUNT);
     }
 }

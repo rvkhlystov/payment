@@ -1,8 +1,9 @@
-package ru.sbrf.payment.server.check;
+package ru.sbrf.payment.common.check;
 
 import ru.sbrf.payment.client.Account;
 import ru.sbrf.payment.client.Check.CheckAccount;
 import ru.sbrf.payment.client.Check.CheckClient;
+import ru.sbrf.payment.client.Check.CheckCorrectAccount;
 import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.Operations.StatusPayment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
@@ -18,34 +19,34 @@ public class CheckPayment {
             CheckClient.checkClient(payment.getClientNumber(), dataBaseClients.getClients());
         }
         catch (BusinessExceptions e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
             return StatusPayment.DONTCLIENT;
         }
 
         //проверяем корректность указанного пользователем счета
         try {
+            //Наличие счета
             CheckAccount.checkAccountNumber(dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList(), payment.getAccountNumber());
-            CheckAccount.checkAccount(dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber()));
+            //Счет дебетовый или кредитный
+            //CheckAccount.checkAccount(dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber()));
+            //Изменена строка в связи с изменением логики взаимодействия классов, проверяющих счета
+            CheckAccount.checkAccount(CheckCorrectAccount.test(), dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber()));
         }
         catch (BusinessExceptions e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
             return StatusPayment.DONTACCOUNT;
         }
-        //Проверяем является ли счет дебетовым или кредитным
-
-
 
         //проверяем достаточность средств на счете
+        //получаем сумму оплаты из платежки
+        float amount = payment.getAmount();
+        //получаем счет для дальнейшей работы с ним
+        Account account = dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber());
         try {
-            //получаем сумму оплаты из платежки
-            float amount = payment.getAmount();
-            //получаем счет для дальнейшей работы с ним
-            Account account = dataBaseClients.getClients().get(payment.getClientNumber()).getAccountsList().get(payment.getAccountNumber());
-            //проверяем достаточность средств на счете
             CheckAccount.checkBalanceForMakeOperation(account, amount);
         }
         catch (BusinessExceptions e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
             return StatusPayment.DONTENOUGHAMOUNT;
         }
 

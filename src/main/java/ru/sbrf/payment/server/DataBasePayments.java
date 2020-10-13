@@ -1,7 +1,7 @@
 package ru.sbrf.payment.server;
 
 import lombok.Getter;
-import ru.sbrf.payment.server.Operations.PaymentProcessed;
+import ru.sbrf.payment.common.Operations.PaymentProcessed;
 
 import java.util.HashMap;
 

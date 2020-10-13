@@ -11,6 +11,9 @@ import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
 import java.util.InputMismatchException;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class ClientApplicationTest {
 
     @BeforeEach
@@ -33,17 +36,11 @@ class ClientApplicationTest {
 
         //Эмулируем получение данных от пользователя
         Interaction userData = new Interaction("1", "12345", new PhoneNumberRussian("1234567890"), 100, Currency.RUB);
-
-        try {
-            //Создаем платеж
-            Payment payment1 = clientApplication.pay(userData);
-
-            //Повторяем платеж
-            Payment payment2 = clientApplication.pay(userData);
-        }
-        catch (BusinessExceptions e) {
-            System.out.println(e.getMessage());
-        }
+        //Создаем платеж
+        Payment payment1 = clientApplication.pay(userData);
+        //Проверяем дублирование платежа
+        Throwable exception = assertThrows(BusinessExceptions.class, () -> clientApplication.pay(userData));
+        assertTrue(exception.getMessage() == "Попытка дублирующего платежа. Если уверены, что хотите повторить платеж, то попробуйте через 5 минут.");
 
     }
 

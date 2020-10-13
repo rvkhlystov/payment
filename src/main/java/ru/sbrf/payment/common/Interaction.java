@@ -1,11 +1,7 @@
 package ru.sbrf.payment.common;
 
 import lombok.Getter;
-import ru.sbrf.payment.common.PhoneNumber.PhoneNumber;
 import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
-import ru.sbrf.payment.common.check.CheckPhoneNumber;
-import ru.sbrf.payment.common.exceptions.BusinessExceptions;
-import java.util.Scanner;
 
 @Getter
 

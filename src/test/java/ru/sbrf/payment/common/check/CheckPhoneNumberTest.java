@@ -7,6 +7,7 @@ import ru.sbrf.payment.app.check.CheckDoublePayment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CheckPhoneNumberTest {
 
@@ -24,23 +25,16 @@ class CheckPhoneNumberTest {
     }
 
     @Test
-    void checkPhoneNumberError10Digits() throws BusinessExceptions {
-        try {
-            CheckPhoneNumber.checkPhoneNumber("92345678901");
-        }
-        catch (BusinessExceptions e) {
-            System.out.println(e.getMessage());
-        }
+    void checkPhoneNumberError10Digits() {
+        Throwable exception = assertThrows(BusinessExceptions.class, () -> CheckPhoneNumber.checkPhoneNumber("92345678901"));
+        assertTrue(exception.getMessage() == "Ошибка. Номер телефона некорректный. Должно быть 10 цифр");
     }
 
     @Test
-    void checkPhoneNumberErrorCharacter() throws BusinessExceptions {
-        try {
-            CheckPhoneNumber.checkPhoneNumber("9A34567890");
-        }
-        catch (BusinessExceptions e) {
-            System.out.println(e.getMessage());
-        }
+    void checkPhoneNumberErrorCharacter() {
+        Throwable exception = assertThrows(BusinessExceptions.class, () -> CheckPhoneNumber.checkPhoneNumber("9A34567890"));
+        assertTrue(exception.getMessage() == "Ошибка. Номер телефона некорректный. Должно быть 10 цифр");
+
     }
 
 }
