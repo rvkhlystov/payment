@@ -1,4 +1,4 @@
-package ru.sbrf.payment.common;
+package ru.sbrf.payment.common.Operations;
 
 public enum DescriptionStatusPayment {
     success("Платеж прошел успешно"),

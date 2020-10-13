@@ -3,11 +3,10 @@ package ru.sbrf.payment.app;
 import lombok.Getter;
 import ru.sbrf.payment.app.check.CheckDoublePayment;
 import ru.sbrf.payment.common.*;
+import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 
 import java.util.Date;
-
-//Реализовать тесты
 
 @Getter
 
@@ -31,15 +30,6 @@ public class ClientApplication implements ApplicationInterface {
         numberOperationApp += 1;
         paymentLast = payment;
         return payment;
-    }
-
-    @Override
-    public void returnStatusPayment(Payment payment) {
-        System.out.println(payment.getDescriptionStatusPayment().name());
-        System.out.println("Дата платежа: " + payment.getDateOperationServer());
-        System.out.println("Счет отправителя: " + payment.getAccountNumber());
-        System.out.println("Номер телефона получателя:" + payment.getPhoneNumber());
-        System.out.println("Сумма платежа: " + payment.getAmount() + " " + payment.getCurrency());
     }
 
 }

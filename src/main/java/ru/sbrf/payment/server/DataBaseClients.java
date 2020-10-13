@@ -1,7 +1,7 @@
 package ru.sbrf.payment.server;
 
 import lombok.Getter;
-import ru.sbrf.payment.client.User;
+import ru.sbrf.payment.client.Client;
 
 import java.util.HashMap;
 
@@ -9,10 +9,10 @@ import java.util.HashMap;
 
 public class DataBaseClients {
 
-    private HashMap<String, User> clients = new HashMap<>();
+    private HashMap<String, Client> clients = new HashMap<>();
 
-    public void addClient (String clientNumber, User client) {
-        clients.put(clientNumber, client);
+    public void addClient (Client client) {
+        clients.put(client.getClientNumber(), client);
     }
 
 }

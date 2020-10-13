@@ -4,17 +4,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.sbrf.payment.app.ClientApplication;
-import ru.sbrf.payment.client.Account;
-import ru.sbrf.payment.client.AccountCredit;
-import ru.sbrf.payment.client.AccountDebit;
-import ru.sbrf.payment.client.User;
-import ru.sbrf.payment.common.Currency;
-import ru.sbrf.payment.common.Interaction;
-import ru.sbrf.payment.common.Payment;
+import ru.sbrf.payment.client.*;
+import ru.sbrf.payment.common.*;
+import ru.sbrf.payment.common.Operations.*;
 import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
+import ru.sbrf.payment.server.Operations.PaymentProcessed;
 
-import java.util.InputMismatchException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,6 +25,7 @@ class ServerTest {
     void tearDown() {
     }
 
+    //проверка на корректность записи в базу платежа и корректность изменения баланса
     @Test
     void makePayment() throws BusinessExceptions {
         //Создаем сервер,базы данных и приложение
@@ -38,39 +35,30 @@ class ServerTest {
         ClientApplication clientApplication = new ClientApplication();
 
         //Эмулируем получение данных от пользователя
-        Interaction userData = new Interaction("1", 12345, new PhoneNumberRussian("1234567890"), 100);
+        Interaction userData = new Interaction("1", "12345", new PhoneNumberRussian("1234567890"), 100, Currency.RUB);
 
         //добавляем в базы данных двух клиентов
-        dataBaseClients.addClient("1", new User("1", new AccountDebit(12345, Currency.RUB, 10000)));
-        dataBaseClients.addClient("2", new User("2", new AccountCredit(12346, Currency.RUB, 100000)));
+        dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
+        dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
 
         try {
             //создаем платеж на стороне приложения
             Payment payment = clientApplication.pay(userData);
 
             //обрабатываем платеж на стороне сервера
-            payment = server.makePayment(payment, dataBaseClients, dataBasePayments);
+            PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
 
-            //Проверяем,что в базу записался верный платеж
-            assertTrue(payment.equals(dataBasePayments.getPayments().get(1)));
-
-            //Проверяем, что баланс изменился корректно
-            assertTrue(dataBaseClients.getClients().get("1").getAccount().getBalance() == 9900);
-
-
+            //Проверяем,что в базу записался верный платеж и баланс изменился корректно
+            assertTrue(paymentProcessed.equals(dataBasePayments.getPayments().get(1))
+                    && dataBaseClients.getClients().get("1").getAccountsList().get("12345").getBalance() == 9900);
         }
-        catch (InputMismatchException e) {
-            System.out.println("Ошибка. Номер телефона и сумма могут содержать только цифры. Для осуществления перевода необходимо начать заново.");
 
-        }
         catch (BusinessExceptions e) {
             System.out.println(e.getMessage());
         }
-
-
     }
 
-
+    //Проверяем,что дублирующие платежи не проходят
     @Test
     void makePaymentDouble() throws BusinessExceptions {
         //Создаем сервер,базы данных и приложение
@@ -80,35 +68,32 @@ class ServerTest {
         ClientApplication clientApplication = new ClientApplication();
 
         //Эмулируем получение данных от пользователя
-        Interaction userData = new Interaction("1", 12345, new PhoneNumberRussian("1234567890"), 100);
+        Interaction userData = new Interaction("1", "12345", new PhoneNumberRussian("1234567890"), 100, Currency.RUB);
 
         //добавляем в базы данных двух клиентов
-        dataBaseClients.addClient("1", new User("1", new AccountDebit(12345, Currency.RUB, 10000)));
-        dataBaseClients.addClient("2", new User("2", new AccountCredit(12346, Currency.RUB, 100000)));
+        dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
+        dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
 
         try {
             Payment payment = clientApplication.pay(userData);
 
             //обрабатываем платеж на стороне сервера
-            payment = server.makePayment(payment, dataBaseClients, dataBasePayments);
+            PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
 
             //Повторяем платеж
             payment = clientApplication.pay(userData);
-            payment = server.makePayment(payment, dataBaseClients, dataBasePayments);
-
-        }
-        catch (InputMismatchException e) {
-            System.out.println("Ошибка. Номер телефона и сумма могут содержать только цифры. Для осуществления перевода необходимо начать заново.");
+            paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
 
         }
         catch (BusinessExceptions e) {
+            //Проверяем, что баланс изменился корректно
+            assertTrue(dataBaseClients.getClients().get("1").getAccountsList().get("12345").getBalance() == 9900);
             System.out.println(e.getMessage());
         }
-        //Проверяем, что баланс изменился корректно
-        assertTrue(dataBaseClients.getClients().get("1").getAccount().getBalance() == 9900);
+
     }
 
-
+    //Проверка в случае отсутствия указанного клиента в базах
     @Test
     void makePaymentIncorrectClientNumber() throws BusinessExceptions {
         //Создаем сервер,базы данных и приложение
@@ -118,29 +103,28 @@ class ServerTest {
         ClientApplication clientApplication = new ClientApplication();
 
         //Эмулируем получение данных от пользователя
-        Interaction userData = new Interaction("3", 12345, new PhoneNumberRussian("1234567890"), 100);
+        Interaction userData = new Interaction("3", "12345", new PhoneNumberRussian("1234567890"), 100, Currency.RUB);
 
         //добавляем в базы данных двух клиентов
-        dataBaseClients.addClient("1", new User("1", new AccountDebit(12345, Currency.RUB, 10000)));
-        dataBaseClients.addClient("2", new User("2", new AccountCredit(12346, Currency.RUB, 100000)));
+        dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
+        dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
 
         try {
             //создаем платеж на стороне приложения
             Payment payment = clientApplication.pay(userData);
 
             //обрабатываем платеж на стороне сервера
-            payment = server.makePayment(payment, dataBaseClients, dataBasePayments);
+            PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
 
-        }
-        catch (InputMismatchException e) {
-            System.out.println("Ошибка. Номер телефона и сумма могут содержать только цифры. Для осуществления перевода необходимо начать заново.");
+            assertTrue(paymentProcessed.getStatusPayment() == StatusPayment.DONTCLIENT);
 
         }
         catch (BusinessExceptions e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
     }
 
+    //Проверяем как отрабатывает алгоритм в случае некорректного ввода номера счета
     @Test
     void makePaymentIncorrectAccountNumber() throws BusinessExceptions {
         //Создаем сервер,базы данных и приложение
@@ -150,28 +134,27 @@ class ServerTest {
         ClientApplication clientApplication = new ClientApplication();
 
         //Эмулируем получение данных от пользователя
-        Interaction userData = new Interaction("1", 123, new PhoneNumberRussian("1234567890"), 100);
+        Interaction userData = new Interaction("1", "123", new PhoneNumberRussian("1234567890"), 100, Currency.RUB);
 
         //добавляем в базы данных двух клиентов
-        dataBaseClients.addClient("1", new User("1", new AccountDebit(12345, Currency.RUB, 10000)));
-        dataBaseClients.addClient("2", new User("2", new AccountCredit(12346, Currency.RUB, 100000)));
+        dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
+        dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
 
         try {
             //создаем платеж на стороне приложения
             Payment payment = clientApplication.pay(userData);
 
             //обрабатываем платеж на стороне сервера
-            payment = server.makePayment(payment, dataBaseClients, dataBasePayments);
-        }
-        catch (InputMismatchException e) {
-            System.out.println("Ошибка. Номер телефона и сумма могут содержать только цифры. Для осуществления перевода необходимо начать заново.");
+            PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
 
+            assertTrue(paymentProcessed.getStatusPayment() == StatusPayment.DONTACCOUNT);
         }
         catch (BusinessExceptions e) {
             System.out.println(e.getMessage());
         }
     }
 
+    //Проверяем как отрабатывает алгоритм в случае указания суммы перевода больше баланса счета
     @Test
     void makePaymentIncorrectAmount() throws BusinessExceptions {
         //Создаем сервер,базы данных и приложение
@@ -181,29 +164,27 @@ class ServerTest {
         ClientApplication clientApplication = new ClientApplication();
 
         //Эмулируем получение данных от пользователя
-        Interaction userData = new Interaction("1", 12345, new PhoneNumberRussian("1234567890"), 100000);
+        Interaction userData = new Interaction("1", "12345", new PhoneNumberRussian("1234567890"), 100000, Currency.RUB);
 
         //добавляем в базы данных двух клиентов
-        dataBaseClients.addClient("1", new User("1", new AccountDebit(12345, Currency.RUB, 10000)));
-        dataBaseClients.addClient("2", new User("2", new AccountCredit(12346, Currency.RUB, 100000)));
+        dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
+        dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
 
         try {
             //создаем платеж на стороне приложения
             Payment payment = clientApplication.pay(userData);
 
             //обрабатываем платеж на стороне сервера
-            payment = server.makePayment(payment, dataBaseClients, dataBasePayments);
+            PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
 
-        }
-        catch (InputMismatchException e) {
-            System.out.println("Ошибка. Номер телефона и сумма могут содержать только цифры. Для осуществления перевода необходимо начать заново.");
-
+            assertTrue(paymentProcessed.getStatusPayment() == StatusPayment.DONTENOUGHAMOUNT);
         }
         catch (BusinessExceptions e) {
             System.out.println(e.getMessage());
         }
     }
 
+    //Проверка алгоритма в случае указания номера счета другого клиента
     @Test
     void makePaymentAccountNumberOfOtherClient() throws BusinessExceptions {
         //Создаем сервер,базы данных и приложение
@@ -213,24 +194,21 @@ class ServerTest {
         ClientApplication clientApplication = new ClientApplication();
 
         //Эмулируем получение данных от пользователя
-        Interaction userData = new Interaction("2", 12345, new PhoneNumberRussian("1234567890"), 100);
+        Interaction userData = new Interaction("2", "12345", new PhoneNumberRussian("1234567890"), 100, Currency.RUB);
 
         //добавляем в базы данных двух клиентов
-        dataBaseClients.addClient("1", new User("1", new AccountDebit(12345, Currency.RUB, 10000)));
-        dataBaseClients.addClient("2", new User("2", new AccountCredit(12346, Currency.RUB, 100000)));
+        dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
+        dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
 
         try {
             //создаем платеж на стороне приложения
             Payment payment = clientApplication.pay(userData);
 
             //обрабатываем платеж на стороне сервера
-            payment = server.makePayment(payment, dataBaseClients, dataBasePayments);
-
+            PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
+            assertTrue(paymentProcessed.getStatusPayment() == StatusPayment.DONTACCOUNT);
         }
-        catch (InputMismatchException e) {
-            System.out.println("Ошибка. Номер телефона и сумма могут содержать только цифры. Для осуществления перевода необходимо начать заново.");
 
-        }
         catch (BusinessExceptions e) {
             System.out.println(e.getMessage());
         }

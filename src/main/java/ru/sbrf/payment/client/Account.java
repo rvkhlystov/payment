@@ -7,23 +7,32 @@ import ru.sbrf.payment.common.Currency;
 
 public class Account {
 
-    //private AccountDescription accountDescription = AccountDescription.ACCOUNT;
-    private long accountNumber;
+    private String accountNumber;
     private String accountNumberDescription = "номер счета";
     private Currency currency;
     private String currencyDescription = "валюта";
     private float balance;
     private String balanceDescription = "сумма";
 
-    public Account (long accountNumber, Currency currency, float balance) {
+    protected Account(String accountNumber, Currency currency, float balance) {
         this.accountNumber = accountNumber;
         this.currency = currency;
         this.balance = balance;
     }
 
-
-    //Реализовать сеттер по изменению баланса через получение суммы увеличения/уменьшения баланса
-    public void setBalance(float balance) {
-        this.balance = balance;
+    public void changeBalance(float amount) {
+        this.balance -= amount;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Account)) return false;
+        Account account = (Account) o;
+        return Float.compare(account.getBalance(), getBalance()) == 0 &&
+                getAccountNumber().equals(account.getAccountNumber()) &&
+                getCurrency() == account.getCurrency();
+    }
+
+
 }
