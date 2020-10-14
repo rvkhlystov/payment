@@ -1,4 +1,4 @@
-package ru.sbrf.payment.client.Check;
+package ru.sbrf.payment.server.client.Check;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;

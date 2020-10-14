@@ -1,5 +1,6 @@
 package ru.sbrf.payment.server.Operations;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.Operations.Payment;
@@ -12,6 +13,7 @@ import javax.validation.constraints.Min;
 import java.util.Date;
 
 @Getter
+@EqualsAndHashCode
 
 public class PaymentProcessed {
     private int numberOperationApp;
@@ -42,7 +44,7 @@ public class PaymentProcessed {
         this.dateOperationServer = dateOperationServer;
     }
 
-    @Override
+/*    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof PaymentProcessed)) return false;
@@ -57,6 +59,6 @@ public class PaymentProcessed {
                 currency == that.currency &&
                 statusPayment == that.statusPayment &&
                 dateOperationServer.equals(that.dateOperationServer);
-    }
+    }*/
 
 }

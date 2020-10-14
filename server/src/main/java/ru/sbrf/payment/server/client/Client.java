@@ -14,7 +14,7 @@ public class Client {
     @NotNull
     @Size(max = 10, min = 1)
     private String clientNumber;
-    private String clientNumberDescription = "номер клиента";
+    //private String clientNumberDescription = "номер клиента";
     private HashMap<String, Account> accountsList = new HashMap<>();
 
     public Client(String clientNumber, Account account) {

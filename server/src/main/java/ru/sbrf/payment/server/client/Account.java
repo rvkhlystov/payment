@@ -1,5 +1,6 @@
 package ru.sbrf.payment.server.client;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import ru.sbrf.payment.common.Currency;
 
@@ -7,17 +8,18 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Getter
+@EqualsAndHashCode
 
 public class Account {
 
     @NotNull
     private String accountNumber;
-    private String accountNumberDescription = "номер счета";
+    //private String accountNumberDescription = "номер счета";
     private Currency currency;
-    private String currencyDescription = "валюта";
+    //private String currencyDescription = "валюта";
     @Min(0)
     private long balance;
-    private String balanceDescription = "сумма";
+    //private String balanceDescription = "сумма";
 
     protected Account(String accountNumber, Currency currency, long balance) {
         this.accountNumber = accountNumber;
@@ -30,7 +32,7 @@ public class Account {
     }
 
 
-    @Override
+/*    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Account)) return false;
@@ -38,6 +40,6 @@ public class Account {
         return getBalance() == account.getBalance() &&
                 getAccountNumber().equals(account.getAccountNumber()) &&
                 getCurrency() == account.getCurrency();
-    }
+    }*/
 
 }

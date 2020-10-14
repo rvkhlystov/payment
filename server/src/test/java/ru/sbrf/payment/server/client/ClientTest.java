@@ -1,4 +1,4 @@
-package ru.sbrf.payment.client;
+package ru.sbrf.payment.server.client;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
