@@ -17,12 +17,6 @@
             <version>1.0</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>001</groupId>
-            <artifactId>app</artifactId>
-            <version>1.0</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
 
