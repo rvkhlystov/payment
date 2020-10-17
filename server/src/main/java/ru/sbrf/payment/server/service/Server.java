@@ -1,15 +1,19 @@
-package ru.sbrf.payment.server;
+package ru.sbrf.payment.server.service;
 
 import lombok.Getter;
+import org.springframework.stereotype.Service;
 import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.Operations.StatusPayment;
 import ru.sbrf.payment.common.check.CheckFieldsInClass;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 import ru.sbrf.payment.server.Operations.PaymentProcessed;
 import ru.sbrf.payment.server.check.CheckPayment;
+import ru.sbrf.payment.server.databases.DataBaseClients;
+import ru.sbrf.payment.server.databases.DataBasePayments;
 
 import java.util.Date;
 
+@Service
 @Getter
 
 public class Server implements ServerInterface {

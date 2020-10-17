@@ -1,6 +1,9 @@
-package ru.sbrf.payment.common;
+package ru.sbrf.payment.app.service;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.stereotype.Service;
+import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
 
 import javax.validation.constraints.Min;
@@ -8,6 +11,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Getter
+@AllArgsConstructor
+
 
 public class Interaction {
 
@@ -23,11 +28,4 @@ public class Interaction {
     private long amount;
     private Currency currency;
 
-    public Interaction(String clientNumber, String accountNumber, PhoneNumberRussian phoneNumber, long amount, Currency currency) {
-        this.clientNumber = clientNumber;
-        this.accountNumber = accountNumber;
-        this.phoneNumber = phoneNumber;
-        this.amount = amount;
-        this.currency = currency;
-    }
 }

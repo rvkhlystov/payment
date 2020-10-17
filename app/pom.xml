@@ -14,10 +14,26 @@
         <dependency>
             <groupId>001</groupId>
             <artifactId>common</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
+            <version>${project.version}</version>
+            <!--<scope>compile</scope>-->
         </dependency>
+        <!--<dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>-->
+
+
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

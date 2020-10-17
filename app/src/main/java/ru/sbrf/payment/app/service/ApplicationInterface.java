@@ -1,6 +1,5 @@
-package ru.sbrf.payment.app;
+package ru.sbrf.payment.app.service;
 
-import ru.sbrf.payment.common.Interaction;
 import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 

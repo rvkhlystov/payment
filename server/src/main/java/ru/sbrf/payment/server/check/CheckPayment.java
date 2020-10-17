@@ -4,7 +4,7 @@ import ru.sbrf.payment.server.client.Account;
 import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.Operations.StatusPayment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
-import ru.sbrf.payment.server.DataBaseClients;
+import ru.sbrf.payment.server.databases.DataBaseClients;
 
 public class CheckPayment {
 

@@ -7,7 +7,6 @@ import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
 import javax.validation.constraints.Min;
 import java.util.Date;
 
-//Реализовать тесты
 
 @Getter
 
@@ -22,6 +21,7 @@ public class Payment {
     @Min(0)
     private long amount;
     private String amountDescription = "сумма";
+
 
     public Payment(int numberOperationApp, Date dateOperationApp, String clientNumber, PhoneNumberRussian phoneNumber, String accountNumber, Currency currency, long amount) {
         this.numberOperationApp = numberOperationApp;

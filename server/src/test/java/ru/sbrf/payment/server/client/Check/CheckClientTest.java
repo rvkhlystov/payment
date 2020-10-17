@@ -10,8 +10,8 @@ import ru.sbrf.payment.server.client.AccountDebit;
 import ru.sbrf.payment.server.client.Client;
 import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
-import ru.sbrf.payment.server.DataBaseClients;
-import ru.sbrf.payment.server.Server;
+import ru.sbrf.payment.server.databases.DataBaseClients;
+import ru.sbrf.payment.server.service.Server;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;

@@ -3,7 +3,7 @@ package ru.sbrf.payment.server.client.Check;
 import org.junit.jupiter.api.*;
 import ru.sbrf.payment.common.Currency;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
-import ru.sbrf.payment.server.DataBaseClients;
+import ru.sbrf.payment.server.databases.DataBaseClients;
 import ru.sbrf.payment.server.check.CheckAccount;
 import ru.sbrf.payment.server.check.CheckCorrectAccount;
 import ru.sbrf.payment.server.client.AccountCredit;

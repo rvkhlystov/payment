@@ -12,6 +12,9 @@ import ru.sbrf.payment.server.Operations.PaymentProcessed;
 import ru.sbrf.payment.server.client.AccountCredit;
 import ru.sbrf.payment.server.client.AccountDebit;
 import ru.sbrf.payment.server.client.Client;
+import ru.sbrf.payment.server.databases.DataBaseClients;
+import ru.sbrf.payment.server.databases.DataBasePayments;
+import ru.sbrf.payment.server.service.Server;
 
 
 import java.util.Date;
