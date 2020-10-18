@@ -1,6 +1,7 @@
 package ru.sbrf.payment.server.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,12 +24,14 @@ import java.util.HashMap;
 
 @RestController
 @AllArgsConstructor
+@Log
 
 public class ServerController {
     private Server server;
 
     @GetMapping("/server")
     public String getServerInfo() {
+        log.info("Request from outside=/server, Response=It's server");
         return "It's server";
     }
 
@@ -37,6 +40,7 @@ public class ServerController {
             //@RequestBody Payment payment
             @RequestBody HashMap paymentTemp //обходная реализация
             ) throws BusinessExceptions, ParseException {
+        log.info("Request /server/operations/" + paymentTemp.toString());
 
         //создаем базу данных - необходимо заменить реализацию
         DataBaseClients dataBaseClients = new DataBaseClients();
@@ -48,10 +52,29 @@ public class ServerController {
         //Обходная реализация
         Payment payment = CreatorTransferPayment.createPaymentFromTransferPayment(paymentTemp);
         //конец обходной реализации
-
+        log.info("CreatorTransferPayment.createPaymentFromTransferPayment(paymentTemp) " +
+                "NumberOperationApp=" + payment.getNumberOperationApp() +
+                ", DateOperationApp=" + payment.getDateOperationApp() +
+                ", ClientNumber=" + payment.getClientNumber() +
+                ", AccountNumber=" + payment.getAccountNumber() +
+                ", Amount=" + payment.getAmount() +
+                ", Currency=" + payment.getCurrency() +
+                ", PhoneNumber=" +payment.getPhoneNumber().getPhoneNumber()
+        );
         //обрабатываем платеж
         PaymentProcessed paymentProcessed = server.makePayment(payment, dataBaseClients, dataBasePayments);
-
+        log.info("server.makePayment " +
+                "NumberOperationApp=" + paymentProcessed.getNumberOperationApp() +
+                ", DateOperationApp=" + paymentProcessed.getDateOperationApp() +
+                ", ClientNumber=" + paymentProcessed.getClientNumber() +
+                ", AccountNumber=" + paymentProcessed.getAccountNumber() +
+                ", Amount=" + paymentProcessed.getAmount() +
+                ", Currency=" + paymentProcessed.getCurrency() +
+                ", PhoneNumber=" + paymentProcessed.getPhoneNumber().getPhoneNumber() +
+                ", NumberOperationServer=" + paymentProcessed.getNumberOperationServer() +
+                ", DateOperationServer=" + paymentProcessed.getDateOperationServer() +
+                ", StatusPayment=" + paymentProcessed.getStatusPayment()
+        );
         return paymentProcessed.getStatusPayment();
     }
 }
