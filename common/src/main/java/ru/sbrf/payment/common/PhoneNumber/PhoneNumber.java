@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 
 public abstract class PhoneNumber {
-    private CodeOfCountry codeOfCountry;
+    //private CodeOfCountry codeOfCountry;
     private String phoneNumber;
 
     public PhoneNumber() {

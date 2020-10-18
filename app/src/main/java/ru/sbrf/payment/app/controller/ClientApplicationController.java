@@ -10,10 +10,12 @@ import org.springframework.web.client.RestTemplate;
 import ru.sbrf.payment.app.service.ClientApplicationService;
 import ru.sbrf.payment.app.service.Interaction;
 import ru.sbrf.payment.common.Currency;
+import ru.sbrf.payment.common.Operations.CreatorTransferPayment;
 import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.Operations.StatusPayment;
 import ru.sbrf.payment.common.PhoneNumber.PhoneNumberRussian;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
+import java.util.HashMap;
 
 @RestController
 @AllArgsConstructor
@@ -37,15 +39,22 @@ public class ClientApplicationController {
     ) throws BusinessExceptions {
         //решить,как принимать значение валюты
 
-        PhoneNumberRussian phoneNumberRussian = new PhoneNumberRussian(phoneNumber);
-        Payment payment = clientApplicationService.pay(new Interaction(clientNumber, accountNumber, phoneNumberRussian, amount, Currency.RUB));
+        Payment payment = clientApplicationService.pay(new Interaction(
+                clientNumber,
+                accountNumber,
+                new PhoneNumberRussian(phoneNumber),
+                amount,
+                Currency.RUB));
 
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<Payment> request = new HttpEntity<>(payment);
+        //HttpEntity<Payment> request = new HttpEntity<>(payment);
+
+        //обходная реализация передачи платежа
+        HashMap paymentTemp = CreatorTransferPayment.createTransferPayment(payment);
+        HttpEntity<HashMap> request = new HttpEntity<>(paymentTemp);
+        //конец обходной реализации
 
         ResponseEntity<StatusPayment> responseEntity = restTemplate.postForEntity("http://127.0.0.1:8080/server/operations", request, StatusPayment.class);
-
-
         return responseEntity.getBody().name();
     }
 
