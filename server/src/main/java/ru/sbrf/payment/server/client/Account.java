@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import ru.sbrf.payment.common.Currency;
 
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -14,12 +15,10 @@ public class Account {
 
     @NotNull
     private String accountNumber;
-    //private String accountNumberDescription = "номер счета";
+
     private Currency currency;
-    //private String currencyDescription = "валюта";
     @Min(0)
     private long balance;
-    //private String balanceDescription = "сумма";
 
     protected Account(String accountNumber, Currency currency, long balance) {
         this.accountNumber = accountNumber;

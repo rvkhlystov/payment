@@ -8,15 +8,24 @@ import ru.sbrf.payment.common.check.CheckFieldsInClass;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 import ru.sbrf.payment.server.Operations.PaymentProcessed;
 import ru.sbrf.payment.server.check.CheckPayment;
+import ru.sbrf.payment.server.client.Account;
+import ru.sbrf.payment.server.client.Client;
+import ru.sbrf.payment.server.databases.AccountsCrudRepository;
+import ru.sbrf.payment.server.databases.ClientsCrudRepository;
 import ru.sbrf.payment.server.databases.DataBaseClients;
 import ru.sbrf.payment.server.databases.DataBasePayments;
+import ru.sbrf.payment.server.entity.AccountEntity;
+import ru.sbrf.payment.server.entity.ClientEntity;
 
-import java.util.Date;
+import java.util.*;
 
 @Service
 @Getter
 
 public class Server implements ServerInterface {
+
+    private ClientsCrudRepository clientsCrudRepository;
+    private AccountsCrudRepository accountsCrudRepository;
 
     private String serverName = "server.payment.sbrf.ru"; //имя данного сервера
     private String ip = "127.0.0.1"; //IP-адрес данного сервера
@@ -27,8 +36,14 @@ public class Server implements ServerInterface {
     private int numberOperationServer = 0;
     private StatusPayment statusPayment;
 
+    public String getAccountEntity() throws BusinessExceptions {
+        AccountEntity accountEntity = accountsCrudRepository.findById(1L).orElseThrow(BusinessExceptions::new);
+        return accountEntity.toString();
+    }
+
     @Override
     public PaymentProcessed makePayment(Payment payment, DataBaseClients dataBaseClients, DataBasePayments dataBasePayments) throws BusinessExceptions {
+
         CheckFieldsInClass.validate(payment);
 
         numberOperationServer += 1;

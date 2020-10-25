@@ -85,7 +85,7 @@ class CheckClientTest {
         //Создаем сервер,базы данных и приложение
         DataBaseClients dataBaseClients = new DataBaseClients();
 
-        //добавляем в базу данных клиента с пустым номером клиента
+        //добавляем в базу данных клиента с некорректным номером клиента
         Client client = new Client("12345678901", new AccountDebit("12345", Currency.RUB, 10000));
 
         Set<ConstraintViolation<Client>> constraintViolations = validator.validate(client);

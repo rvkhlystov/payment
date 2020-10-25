@@ -1,6 +1,7 @@
 package ru.sbrf.payment.server.check;
 
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
+import ru.sbrf.payment.server.client.Client;
 
 import java.util.HashMap;
 import java.util.Optional;

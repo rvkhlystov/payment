@@ -11,9 +11,11 @@ import ru.sbrf.payment.common.Operations.CreatorTransferPayment;
 import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.Operations.StatusPayment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
+import ru.sbrf.payment.server.databases.ClientsCrudRepository;
 import ru.sbrf.payment.server.databases.DataBaseClients;
 import ru.sbrf.payment.server.databases.DataBasePayments;
 import ru.sbrf.payment.server.Operations.PaymentProcessed;
+import ru.sbrf.payment.server.entity.ClientEntity;
 import ru.sbrf.payment.server.service.Server;
 import ru.sbrf.payment.server.client.AccountCredit;
 import ru.sbrf.payment.server.client.AccountDebit;
@@ -28,10 +30,14 @@ import java.util.HashMap;
 
 public class ServerController {
     private Server server;
+    //private ClientsCrudRepository clientsCrudRepository;
+
 
     @GetMapping("/server")
-    public String getServerInfo() {
+    public String getServerInfo() throws BusinessExceptions {
         log.info("Request from outside=/server, Response=It's server");
+
+        System.out.println(server.getAccountEntity());
         return "It's server";
     }
 
@@ -48,6 +54,13 @@ public class ServerController {
         //добавляем в базы данных двух клиентов - исключить после реализации БД
         dataBaseClients.addClient(new Client("1", new AccountDebit("12345", Currency.RUB, 10000)));
         dataBaseClients.addClient(new Client("2", new AccountCredit("12346", Currency.RUB, 100000)));
+
+        //наполняем объект данными из БД - после проверки взаимодействия с БД, изменить логику сервиса
+
+        /*Client client = clientsCrudRepository.findById(1).orElseThrow(BusinessExceptions::new);
+        dataBaseClients.addClient(client);
+        dataBaseClients.addClient(clientsCrudRepository.findById(2).orElseThrow(BusinessExceptions::new));*/
+
 
         //Обходная реализация
         Payment payment = CreatorTransferPayment.createPaymentFromTransferPayment(paymentTemp);
