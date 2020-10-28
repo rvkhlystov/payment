@@ -1,6 +1,5 @@
 package ru.sbrf.payment.server.service;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
@@ -8,29 +7,23 @@ import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.Operations.StatusPayment;
 import ru.sbrf.payment.common.check.CheckFieldsInClass;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
-import ru.sbrf.payment.common.exceptions.ClientNotFoundException;
 import ru.sbrf.payment.server.Operations.PaymentProcessed;
 import ru.sbrf.payment.server.check.CheckPayment;
-import ru.sbrf.payment.server.client.Account;
-import ru.sbrf.payment.server.client.Client;
-import ru.sbrf.payment.server.databases.AccountsCrudRepository;
-import ru.sbrf.payment.server.databases.ClientsCrudRepository;
 import ru.sbrf.payment.server.databases.DataBaseClients;
 import ru.sbrf.payment.server.databases.DataBasePayments;
-import ru.sbrf.payment.server.entity.AccountEntity;
-import ru.sbrf.payment.server.entity.ClientEntity;
 
 import java.util.*;
 
 @Service
-
+//@AllArgsConstructor
 @Getter
 @Log
 
 public class Server implements ServerInterface {
 
     //private ClientsCrudRepository clientsCrudRepository;
-    private int numberOperationServer = 0;
+    //private AccountsCrudRepository accountsCrudRepository;
+    //private int numberOperationServer = 0;
     //private StatusPayment statusPayment;
 
 
@@ -54,7 +47,8 @@ public class Server implements ServerInterface {
 
         CheckFieldsInClass.validate(payment);
 
-        numberOperationServer += 1;
+        //переписать, необходимо будет извлекать последний номер из БД платежей
+        int numberOperationServer = 1;
         StatusPayment statusPayment = StatusPayment.PAYMENTINITIATED;
 
         //Проверяем корректность платежа

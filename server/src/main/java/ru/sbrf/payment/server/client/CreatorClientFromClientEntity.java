@@ -3,6 +3,8 @@ package ru.sbrf.payment.server.client;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 import ru.sbrf.payment.server.entity.ClientEntity;
 
+import java.util.Optional;
+
 
 //временный класс для создания класса клиента из данных БД
 public class CreatorClientFromClientEntity  {

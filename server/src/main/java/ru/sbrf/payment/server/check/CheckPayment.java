@@ -5,14 +5,18 @@ import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.Operations.StatusPayment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 import ru.sbrf.payment.server.databases.DataBaseClients;
+import ru.sbrf.payment.server.entity.AccountEntity;
+import ru.sbrf.payment.server.entity.ClientEntity;
+
+import java.util.Optional;
+import java.util.function.Predicate;
 
 public class CheckPayment {
 
     public static StatusPayment checkPayment(Payment payment, DataBaseClients dataBaseClients) throws BusinessExceptions {
         //проверяем,есть ли такой клиент в базе
         try {
-            //как тут лучше поступать,как я сделал или лучше грузить в метод полностью payment и dataBaseClients,
-            // а внутри метода уже обрабатывать?
+
             CheckClient.checkClient(payment.getClientNumber(), dataBaseClients.getClients());
         }
         catch (BusinessExceptions e) {

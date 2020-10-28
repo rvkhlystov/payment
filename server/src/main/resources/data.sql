@@ -15,6 +15,22 @@ CREATE TABLE Accounts (
     foreign key (client_id) references Clients(id)
 );
 
+CREATE TABLE Payments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  date_operation_server VARCHAR NOT NULL,
+  status_payment VARCHAR NOT NULL,
+  client_id  INT NOT NULL,
+  account_id INT NOT NULL,
+  amount INT NOT NULL,
+  currency VARCHAR DEFAULT 'RUB',
+  phone_number VARCHAR NOT NULL,
+  date_operation_app VARCHAR NOT NULL,
+  number_operation_app INT NOT NULL,
+    foreign key (client_id) references Clients(id),
+    foreign key (account_id) references Accounts(id)
+);
+
+
 INSERT INTO Clients (first_name) VALUES
   ('Василий'),
   ('Петр'),
