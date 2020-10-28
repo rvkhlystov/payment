@@ -25,7 +25,6 @@ class ServerTest {
 
     @BeforeEach
     void setUp() {
-
     }
 
     @AfterEach

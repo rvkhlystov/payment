@@ -9,7 +9,6 @@ import javax.validation.constraints.Size;
 import java.util.HashMap;
 
 @Getter
-@AllArgsConstructor
 
 public class Client {
 
@@ -22,6 +21,7 @@ public class Client {
         this.clientNumber = clientNumber;
         accountsList.put(account.getAccountNumber(), account);
     }
+
 
     public void addAccount(Account account) throws BusinessExceptions {
         accountsList.put(account.getAccountNumber(), CheckFieldsInClass.validate(account));

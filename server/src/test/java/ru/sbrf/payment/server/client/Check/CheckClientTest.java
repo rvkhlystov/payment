@@ -43,7 +43,7 @@ class CheckClientTest {
     @Test
     void checkCorrectClient() {
         //Создаем сервер,базы данных и приложение
-        Server server = new Server();
+        Server server;
         DataBaseClients dataBaseClients = new DataBaseClients();
 
         //добавляем в базы данных двух клиентов
