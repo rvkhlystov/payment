@@ -15,5 +15,12 @@ public class DataBasePayments {
         payments.put(payment.getNumberOperationServer(), payment);
     }
 
+    public int extractMaxNumberPaymentProcess() {
+
+        if (payments.isEmpty()) {
+            return 0;
+        }
+        return payments.get(payments.size()).getNumberOperationServer();
+    }
 
 }

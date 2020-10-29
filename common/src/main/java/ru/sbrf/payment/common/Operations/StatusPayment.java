@@ -6,7 +6,8 @@ public enum StatusPayment {
     DONTACCOUNT("Указан неверный номер счета"),
     DONTENOUGHAMOUNT("Недостаточно средств на счете"),
     CHECKSUCCESSFULLY("Проверка пройдена успешно"),
-    PAYMENTCOMPLETED("Оплата проведена");
+    PAYMENTCOMPLETED("Оплата проведена"),
+    DONTSTATUS("Нет статуса");
 
     StatusPayment(String s) {
     }

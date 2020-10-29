@@ -4,16 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
+import ru.sbrf.payment.common.Operations.StatusPayment;
 import ru.sbrf.payment.common.exceptions.BusinessExceptions;
 import ru.sbrf.payment.common.exceptions.ClientNotFoundException;
-import ru.sbrf.payment.server.client.CreatorClientFromClientEntity;
-import ru.sbrf.payment.server.databases.AccountsCrudRepository;
-import ru.sbrf.payment.server.databases.ClientsCrudRepository;
-import ru.sbrf.payment.server.databases.DataBaseClients;
+import ru.sbrf.payment.server.Operations.PaymentProcessed;
+import ru.sbrf.payment.server.databases.*;
 import ru.sbrf.payment.server.entity.AccountEntity;
 import ru.sbrf.payment.server.entity.ClientEntity;
+import ru.sbrf.payment.server.entity.PaymentEntity;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.Optional;
 
 @Service
@@ -24,6 +23,7 @@ import java.util.Optional;
 public class DBInteractionService {
     private ClientsCrudRepository clientsCrudRepository;
     private AccountsCrudRepository accountsCrudRepository;
+    private PaymentsCrudRepository paymentsCrudRepository;
 
     public Optional<ClientEntity> makeClientEntity(Long id) {
         return clientsCrudRepository.findById(id);
@@ -36,16 +36,34 @@ public class DBInteractionService {
     public DataBaseClients createDataBaseClients(Optional <ClientEntity> clientEntityOptional) throws BusinessExceptions {
         DataBaseClients dataBaseClients = new DataBaseClients();
         if (clientEntityOptional.isPresent()) {
-            dataBaseClients.addClient(CreatorClientFromClientEntity.createClient(clientEntityOptional.get()));
+            dataBaseClients.addClient(Transformator.createClient(clientEntityOptional.get()));
         }
         return dataBaseClients;
     }
 
-    public Long changeBalance(Long id ,Long amount) {
-        AccountEntity accountEntity = accountsCrudRepository.findById(id).orElseThrow(ClientNotFoundException::new);
-        accountEntity.setBalance(accountEntity.getBalance() - amount);
-        accountsCrudRepository.save(accountEntity);
-        return accountEntity.getBalance();
+    public boolean addPaymentProcessedToDBPayments(PaymentProcessed paymentProcessed) {
+        paymentsCrudRepository.save(Transformator.createPaymentEntity(paymentProcessed));
+        return true;
+    }
+
+    public DataBasePayments createDBPayments() throws BusinessExceptions {
+        DataBasePayments dataBasePayments = new DataBasePayments();
+        Optional <PaymentEntity> paymentEntityOptional = paymentsCrudRepository.findById(paymentsCrudRepository.count());
+        if (paymentEntityOptional.isPresent()) {
+            dataBasePayments.addPayment(Transformator.createPaymentProcessed(paymentEntityOptional.get()));
+        }
+        return dataBasePayments;
+    }
+
+    public void changeBalance(PaymentProcessed paymentProcessed) {
+        if (paymentProcessed.getStatusPayment() == StatusPayment.PAYMENTCOMPLETED) {
+            AccountEntity accountEntity = accountsCrudRepository.findById(
+                    new Long(paymentProcessed.getClientNumber()))
+                    .orElseThrow(ClientNotFoundException::new);
+            accountEntity.setBalance(accountEntity.getBalance() - paymentProcessed.getAmount());
+            accountsCrudRepository.save(accountEntity);
+        }
+
     }
 
 }
