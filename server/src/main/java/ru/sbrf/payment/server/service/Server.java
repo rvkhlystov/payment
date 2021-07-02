@@ -1,6 +1,7 @@
 package ru.sbrf.payment.server.service;
 
 import lombok.Getter;
+import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 import ru.sbrf.payment.common.Operations.Payment;
 import ru.sbrf.payment.common.Operations.StatusPayment;
@@ -11,28 +12,23 @@ import ru.sbrf.payment.server.check.CheckPayment;
 import ru.sbrf.payment.server.databases.DataBaseClients;
 import ru.sbrf.payment.server.databases.DataBasePayments;
 
-import java.util.Date;
+import java.util.*;
 
 @Service
 @Getter
+@Log
 
 public class Server implements ServerInterface {
 
-    private String serverName = "server.payment.sbrf.ru"; //имя данного сервера
-    private String ip = "127.0.0.1"; //IP-адрес данного сервера
-    private int port = 443; //номер порта для взаимодействия с приложением
-    private String protocol = "https"; //название протокола взаимодействия
-
-
-    private int numberOperationServer = 0;
-    private StatusPayment statusPayment;
-
     @Override
     public PaymentProcessed makePayment(Payment payment, DataBaseClients dataBaseClients, DataBasePayments dataBasePayments) throws BusinessExceptions {
+
         CheckFieldsInClass.validate(payment);
 
-        numberOperationServer += 1;
-        statusPayment = StatusPayment.PAYMENTINITIATED;
+        //переписать, необходимо будет извлекать последний номер из БД платежей
+
+        int numberOperationServer = dataBasePayments.extractMaxNumberPaymentProcess() + 1;
+        StatusPayment statusPayment = StatusPayment.PAYMENTINITIATED;
 
         //Проверяем корректность платежа
         statusPayment = CheckPayment.checkPayment(payment, dataBaseClients);
@@ -44,8 +40,6 @@ public class Server implements ServerInterface {
         }
         PaymentProcessed paymentProcessed = new PaymentProcessed(payment, statusPayment, numberOperationServer, new Date());
 
-        //Добавляем платеж в базу
-        dataBasePayments.addPayment(paymentProcessed);
         return paymentProcessed;
     }
 

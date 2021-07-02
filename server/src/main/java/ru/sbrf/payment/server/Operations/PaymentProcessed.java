@@ -1,5 +1,6 @@
 package ru.sbrf.payment.server.Operations;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import ru.sbrf.payment.common.Currency;
@@ -14,6 +15,7 @@ import java.util.Date;
 
 @Getter
 @EqualsAndHashCode
+@AllArgsConstructor
 
 public class PaymentProcessed {
     private int numberOperationApp;
